@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "personio-dev-client-side-solution",
+    "id": "19faadd9-84c8-4e32-9569-2afd9c04503a",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.16.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "personio-dev description"
+      },
+      "longDescription": {
+        "default": "personio-dev description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "personio-dev Feature",
+        "description": "The feature that activates elements of the personio-dev solution.",
+        "id": "42e3d4e5-c89a-4505-a113-149bffe4e725",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/personio-dev.sppkg"
+  }
+}

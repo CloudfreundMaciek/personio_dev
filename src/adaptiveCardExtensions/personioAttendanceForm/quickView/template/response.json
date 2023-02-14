@@ -1,0 +1,22 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.1",
+  "body": [
+    {
+        "type": "TextBlock",
+        "text": "${message}",
+        "wrap": true
+    },
+    {
+        "type": "ActionSet",
+        "actions": [
+            {
+                "type": "Action.Submit",
+                "title": "Close",
+                "id": "close"
+            }
+        ]
+    }
+  ]
+}

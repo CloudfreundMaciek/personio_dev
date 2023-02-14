@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "personio-attendance-form-adaptive-card-extension": {
+      "components": [
+        {
+          "entrypoint": "./lib/adaptiveCardExtensions/personioAttendanceForm/PersonioAttendanceFormAdaptiveCardExtension.js",
+          "manifest": "./src/adaptiveCardExtensions/personioAttendanceForm/PersonioAttendanceFormAdaptiveCardExtension.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "PersonioAttendanceFormAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/personioAttendanceForm/loc/{locale}.js"
+  }
+}

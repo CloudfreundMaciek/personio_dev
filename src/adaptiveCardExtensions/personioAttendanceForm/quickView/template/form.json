@@ -1,0 +1,95 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.1",
+  "body": [
+      {
+          "type": "TextBlock",
+          "text": "Day"
+      },
+      {
+          "type": "Input.Date",
+          "value": "${today}",
+          "id": "day"
+      },
+      {
+          "type": "ColumnSet",
+          "columns": [
+              {
+                  "type": "Column",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "text": "Start"
+                      },
+                      {
+                          "type": "Input.Time",
+                          "id": "start"
+                      }
+                  ]
+              },
+              {
+                  "type": "Column",
+                  "items": [
+                      {
+                          "type": "TextBlock",
+                          "text": "End"
+                      },
+                      {
+                          "type": "Input.Time",
+                          "id": "end"
+                      }
+                  ]
+              },
+              {
+                "type": "Column",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "Break length"
+                  },
+                  {
+                      "type": "Input.Number",
+                      "id": "break",
+                      "value": 0
+                  }
+                ]
+              }
+          ]
+      },
+      {
+          "type": "TextBlock",
+          "text": "Project"
+      },
+      {
+          "type": "Input.ChoiceSet",
+          "id": "project",
+          "choices": [
+            {
+              "$data": "${projects}",
+              "title": "${name}",
+              "value": "${id}"
+            }
+          ]
+      },
+      {
+          "type": "TextBlock",
+          "text": "Comment"
+      },
+      {
+          "type": "Input.Text",
+          "id": "comment",
+          "value": ""
+      },
+      {
+          "type": "ActionSet",
+          "actions": [
+              {
+                  "type": "Action.Submit",
+                  "title": "Submit",
+                  "id": "submit"
+              }
+          ]
+      }
+  ]
+}
