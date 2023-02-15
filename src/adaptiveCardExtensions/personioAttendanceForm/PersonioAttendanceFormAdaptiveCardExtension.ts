@@ -3,7 +3,7 @@ import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension
 import { CardView } from './cardView/CardView';
 import { QuickView } from './quickView/QuickView';
 import { PersonioAttendanceFormPropertyPane } from './PersonioAttendanceFormPropertyPane';
-import { ISPHttpClientOptions, SPHttpClient } from '@microsoft/sp-http';
+import { ISPHttpClientOptions, SPHttpClient, AadHttpClient } from '@microsoft/sp-http';
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
   title: string;
@@ -46,18 +46,19 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        target: 'attendance', 
+        target: 'registerAttendance', 
         date, 
         email: this.context.pageContext.user.email
       })
     };
-    this.context.httpClient.fetch('https://personiodev.azurewebsites.net/api/HttpTrigger1?code=ugK5t1l5opFERGswXgN4lfQHp8kTJ1V0tLc9j9KujMxBAzFuCEdDaQ==', SPHttpClient.configurations.v1, options)
+    this.context.httpClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', SPHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => this.setState({message: res.message, stage: 'response'}));
   }
 
   // add error handling
   public async getProjects(): Promise<Array<IProject>> {
+    const aadClient = this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7');
     const projects = new Array<IProject>();
     projects.push({name: '---', id: null});
     const options: ISPHttpClientOptions = {
@@ -67,11 +68,23 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        target: 'projects',
+        target: 'getProjects',
         email: this.context.pageContext.user.email
       })
     };
-    return this.context.httpClient.fetch('https://personiodev.azurewebsites.net/api/HttpTrigger1?code=ugK5t1l5opFERGswXgN4lfQHp8kTJ1V0tLc9j9KujMxBAzFuCEdDaQ==', SPHttpClient.configurations.v1, options)
+    return aadClient.then(client => client.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options))
+      .then(res => res.json())
+      .then(res => {
+        for (const project of res) {
+          projects.push({
+            name: project.attributes.name,
+            id: project.id.toString()
+          });
+        }
+        return projects;
+      });
+/*
+    return this.context.httpClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', SPHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       for (const project of res) {
@@ -83,6 +96,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       return projects;
     });
     //.catch(err => err);
+    */
   }
 
   public onInit(): Promise<void> {
