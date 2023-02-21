@@ -1,9 +1,10 @@
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
 import { CardView } from './cardView/CardView';
-import { QuickView } from './quickView/QuickView';
+import { QuickViewAttendance } from './quickView/QuickViewAttendance';
 import { PersonioAttendanceFormPropertyPane } from './PersonioAttendanceFormPropertyPane';
-import { ISPHttpClientOptions, SPHttpClient, AadHttpClient } from '@microsoft/sp-http';
+import { ISPHttpClientOptions, AadHttpClient } from '@microsoft/sp-http';
+import { QuickViewHolidays } from './quickView/QuickViewHolidays';
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
   title: string;
@@ -11,17 +12,39 @@ export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
   projects: Array<IProject>;
-  stage: string;
+  attendanceStage: string;
+  holidaysStage: string;
   message: string;
+  timeOffTypes: Array<ITimeOffType>;
+  absences: Array<IAbsence>;
+  azureClient: AadHttpClient;
+}
+
+export interface IAbsence {
+  id: number | string;
+  time_off_type_id: number;
+  time_off_type_name: string;
+  start_date: string;
+  end_date: string;
+  half_day_start: boolean;
+  half_day_end: boolean;
+  comment: string;
+  status: string;
+}
+
+export interface ITimeOffType {
+  id: string;
+  name: string;
+  canHalfDay: boolean;
 }
 
 export interface IWorkRegister {
-  day: string;
-  start: string;
-  end: string;
-  break: string;
+  date: string;
+  start_time: string;
+  end_time: string;
+  break: number;
   comment: string;
-  project: string;
+  project_id: number;
 }
 
 export interface IProject {
@@ -30,7 +53,8 @@ export interface IProject {
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'PersonioAttendanceForm_CARD_VIEW';
-export const QUICK_VIEW_REGISTRY_ID: string = 'PersonioAttendanceForm_QUICK_VIEW';
+export const QUICK_VIEW_ATTENDANCE_ID: string = 'PersonioAttendanceForm_QUICK_VIEW';
+export const QUICK_VIEW_HOLIDAYS_ID: string = 'PersonioHolidaysForm_QUICK_VIEW';
 
 export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IPersonioAttendanceFormAdaptiveCardExtensionProps,
@@ -38,7 +62,8 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
 > {
   private _deferredPropertyPane: PersonioAttendanceFormPropertyPane | undefined;
 
-  public registerWork (date: IWorkRegister): void {
+  public async getAbsences(): Promise<Array<IAbsence>> {
+    const absences = new Array<IAbsence>();
     const options: ISPHttpClientOptions = {
       method: 'POST',
       headers: {
@@ -46,19 +71,62 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        target: 'registerAttendance', 
-        date, 
+        target: 'getAbsences',
         email: this.context.pageContext.user.email
       })
     };
-    this.context.httpClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', SPHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
     .then(res => res.json())
-    .then(res => this.setState({message: res.message, stage: 'response'}));
+    .then(res => {
+        for (const absence of res) {
+          const attributes = absence.attributes;
+          absences.push({
+            id: attributes.id,
+            time_off_type_id: attributes.time_off_type.attributes.id,
+            time_off_type_name: attributes.time_off_type.attributes.name,
+            start_date: attributes.start_date,
+            end_date: attributes.end_date,
+            half_day_start: attributes.half_day_start,
+            half_day_end: attributes.half_day_end,
+            comment: attributes.comment,
+            status: attributes.status
+          });
+        }
+        return absences;
+      }
+    );
+    //.catch(err => err);
+  }
+
+  public async getTimeOffTypes(): Promise<Array<ITimeOffType>> {
+    const types = new Array<ITimeOffType>();
+    const options: ISPHttpClientOptions = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        target: 'getTimeOffTypes'
+      })
+    };
+    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    .then(res => res.json())
+    .then(res => {
+      for (const type of res) {
+        types.push({
+          name: type.attributes.name,
+          id: type.attributes.id.toString(),
+          canHalfDay: type.attributes.half_day_requests_enabled
+        });
+      }
+      return types;
+    });
+    //.catch(err => err);
   }
 
   // add error handling
   public async getProjects(): Promise<Array<IProject>> {
-    const aadClient = this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7');
     const projects = new Array<IProject>();
     projects.push({name: '---', id: null});
     const options: ISPHttpClientOptions = {
@@ -72,7 +140,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         email: this.context.pageContext.user.email
       })
     };
-    return aadClient.then(client => client.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options))
+    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
       .then(res => res.json())
       .then(res => {
         for (const project of res) {
@@ -83,31 +151,34 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         }
         return projects;
       });
-/*
-    return this.context.httpClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', SPHttpClient.configurations.v1, options)
-    .then(res => res.json())
-    .then(res => {
-      for (const project of res) {
-        projects.push({
-          name: project.attributes.name,
-          id: project.id.toString()
-        });
-      }
-      return projects;
-    });
-    //.catch(err => err);
-    */
   }
 
-  public onInit(): Promise<void> {
-    this.state = {projects: null, stage: 'form', message: null};
-    this.getProjects().then(projects => this.setState({
-      projects: projects
-    }));
-    this.registerWork = this.registerWork.bind(this);
+  public async onInit(): Promise<void> {
+    this.state = { 
+      timeOffTypes: null, 
+      absences: null, 
+      projects: null, 
+      attendanceStage: 'form', 
+      holidaysStage: 'overview',
+      message: null, 
+      azureClient: await this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7') 
+    };
+
+    const typesPromise = this.getTimeOffTypes();
+    const absencesPromise = this.getAbsences();
+    const projectsPromise = this.getProjects();
+
+    Promise.all([typesPromise, absencesPromise, projectsPromise]).then(res => {
+      this.setState({
+        timeOffTypes: res[0],
+        absences: res[1],
+        projects: res[2]
+      })
+    });
 
     this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
-    this.quickViewNavigator.register(QUICK_VIEW_REGISTRY_ID, () => new QuickView(this.registerWork));
+    this.quickViewNavigator.register(QUICK_VIEW_ATTENDANCE_ID, () => new QuickViewAttendance());
+    this.quickViewNavigator.register(QUICK_VIEW_HOLIDAYS_ID, () => new QuickViewHolidays());
 
     return Promise.resolve();
   }

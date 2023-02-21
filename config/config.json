@@ -9,14 +9,6 @@
           "manifest": "./src/adaptiveCardExtensions/personioAttendanceForm/PersonioAttendanceFormAdaptiveCardExtension.manifest.json"
         }
       ]
-    },
-    "holidays-form-adaptive-card-extension": {
-      "components": [
-        {
-          "entrypoint": "./lib/adaptiveCardExtensions/holidaysForm/HolidaysFormAdaptiveCardExtension.js",
-          "manifest": "./src/adaptiveCardExtensions/holidaysForm/HolidaysFormAdaptiveCardExtension.manifest.json"
-        }
-      ]
     }
   },
   "externals": {},

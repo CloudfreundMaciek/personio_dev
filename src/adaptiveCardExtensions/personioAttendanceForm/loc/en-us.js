@@ -6,6 +6,7 @@ define([], function() {
     "SubTitle": "Quick view",
     "PrimaryText": "Register your working hours",
     "Description": "Create your SPFx Adaptive Card Extension solution!",
-    "QuickViewButton": "Time form"
+    "QuickViewAttendanceButton": "Time form",
+    "QuickViewHolidaysButton": "Holidays"
   }
 });

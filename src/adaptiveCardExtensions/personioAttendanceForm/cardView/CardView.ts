@@ -6,17 +6,26 @@ import {
   ICardButton
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
-import { IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, QUICK_VIEW_REGISTRY_ID } from '../PersonioAttendanceFormAdaptiveCardExtension';
+import { IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, QUICK_VIEW_ATTENDANCE_ID, QUICK_VIEW_HOLIDAYS_ID } from '../PersonioAttendanceFormAdaptiveCardExtension';
 
 export class CardView extends BaseBasicCardView<IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState> {
   public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
-    const quickViewButton: [ICardButton] | undefined = this.state.projects ? [
+    const quickViewButton: [ICardButton, ICardButton] | undefined = this.state.projects ? [
       {
-        title: strings.QuickViewButton,
+        title: strings.QuickViewAttendanceButton,
         action: {
           type: 'QuickView',
           parameters: {
-            view: QUICK_VIEW_REGISTRY_ID
+            view: QUICK_VIEW_ATTENDANCE_ID
+          }
+        }
+      },
+      {
+        title: strings.QuickViewHolidaysButton,
+        action: {
+          type: 'QuickView',
+          parameters: {
+            view: QUICK_VIEW_HOLIDAYS_ID
           }
         }
       }
@@ -35,9 +44,9 @@ export class CardView extends BaseBasicCardView<IPersonioAttendanceFormAdaptiveC
 
   public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {
     return {
-      type: 'ExternalLink',
+      type: 'QuickView',
       parameters: {
-        target: 'https://www.bing.com'
+        view: QUICK_VIEW_ATTENDANCE_ID
       }
     };
   }
