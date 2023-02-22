@@ -49,17 +49,25 @@ export class QuickViewHolidays extends BaseAdaptiveCardView<
     this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
     .then(response => response.json())
     .then(response => {
-      const absences = this.state.absences;
-      data.id = response.attributes.id;
-      absences.push(data);
-      this.setState({absences: absences, message: response.attributes.status, holidaysStage: 'response'});
+      if (response.success === true) {
+        const absences = this.state.absences;
+        data.id = response.data.attributes.id;
+        for (const type of this.state.timeOffTypes) {
+          if (+type.id === data.time_off_type_id) data.time_off_type_name = type.name;
+        }
+        absences.push(data);
+        this.setState({absences: absences, message: response.data.attributes.status, holidaysStage: 'response'});
+      } 
+      else {
+        this.setState({message: response.error.message, holidaysStage: response});
+      }
     });
   }
 
   public get template(): ISPFxAdaptiveCard {
     switch (this.state.holidaysStage) {    
       case 'overview':
-        if (this.state.absences.length) return require('./template/holidays.json');
+        if (this.state.absences.length !== 0) return require('./template/holidays.json');
         else return require('./template/holidays_empty.json');
 
       case 'loading':
@@ -98,7 +106,7 @@ export class QuickViewHolidays extends BaseAdaptiveCardView<
             end_date: action.data.end_date,
             half_day_start: action.data.half_day_start ? true : false,
             half_day_end: action.data.half_day_end ? true : false,
-            comment: action.data.comment,
+            comment: action.data.comment ? action.data.comment : '',
             status: ''
           }
           this.setState({holidaysStage: 'loading'});
@@ -117,13 +125,14 @@ export class QuickViewHolidays extends BaseAdaptiveCardView<
           message: null
         })
       }
-      else if (action.id === 'delete') {
+      else if (action.id === 'callOff') {
         this.setState({holidaysStage: 'loading'});
         this.deleteTimeOff(action.data);
       }
     }
   }
-  deleteTimeOff(data: any): void {
+  public deleteTimeOff(data: any): void {
+console.log(data);
     const options: ISPHttpClientOptions = {
       method: 'POST',
       headers: {
@@ -139,11 +148,15 @@ export class QuickViewHolidays extends BaseAdaptiveCardView<
     this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
     .then(response => response.json())
     .then(response => {
-      const absences = new Array<IAbsence>();
+      if (response.success === true) {
+        const absences = new Array<IAbsence>();
       for (const absence of this.state.absences) {
-        if (absence.id != data.id) absences.push(absence);
+        if (absence.id !== data.id) absences.push(absence);
       }
-      this.setState({absences: absences, message: response.message, holidaysStage: 'response'});
+      this.setState({absences: absences, message: response.data.message, holidaysStage: 'response'});
+      } else {
+      this.setState({message: response.error.message, holidaysStage: 'response'});
+      }
     });
   }
 }

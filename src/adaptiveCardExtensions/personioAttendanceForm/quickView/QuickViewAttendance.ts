@@ -14,6 +14,27 @@ export class QuickViewAttendance extends BaseAdaptiveCardView<
   IPersonioAttendanceFormAdaptiveCardExtensionState,
   IQuickViewAttendanceData
 > {
+  public get data(): IQuickViewAttendanceData {
+    const nowDate = new Date();
+    
+    const year = nowDate.getFullYear();
+    let month: number | string = nowDate.getMonth()+1;
+    if (month < 10) {
+      month = '0'+month;
+    }
+    let day: number | string = nowDate.getDate();
+    if (day < 10) {
+      day = '0'+day;
+    }
+    const date = year+'-'+month+'-'+day;
+
+
+    return {
+      today: date,
+      projects: this.state.projects,
+      message: this.state.message
+    };
+  }
 
   public registerWork (data: IWorkRegister): void {
     const options: ISPHttpClientOptions = {
@@ -30,29 +51,13 @@ export class QuickViewAttendance extends BaseAdaptiveCardView<
     };
     this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
     .then(res => res.json())
-    .then(res => this.setState({message: res.message, attendanceStage: 'response'}));
-  }
-
-  public get data(): IQuickViewAttendanceData {
-    const nowDate = new Date();
-    
-    const year = nowDate.getFullYear();
-    let month: any = nowDate.getMonth()+1;
-    if (month < 10) {
-      month = '0'+month;
-    }
-    let day: any = nowDate.getDate();
-    if (day < 10) {
-      day = '0'+day;
-    }
-    const date = year+'-'+month+'-'+day;
-
-
-    return {
-      today: date,
-      projects: this.state.projects,
-      message: this.state.message
-    };
+    .then(res => {
+      if (res.success === true) {
+        this.setState({message: res.data.message, attendanceStage: 'response'})
+      } else {
+        this.setState({message: res.error.message, attendanceStage: 'response'})
+      }
+    });
   }
 
   public get template(): ISPFxAdaptiveCard {

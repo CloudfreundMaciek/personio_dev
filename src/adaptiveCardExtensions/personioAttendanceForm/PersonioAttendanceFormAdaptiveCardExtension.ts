@@ -12,16 +12,17 @@ export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
   projects: Array<IProject>;
+  timeOffTypes: Array<ITimeOffType>;
+  absences: Array<IAbsence>;
   attendanceStage: string;
   holidaysStage: string;
   message: string;
-  timeOffTypes: Array<ITimeOffType>;
-  absences: Array<IAbsence>;
+  cardViewContent: string;
   azureClient: AadHttpClient;
 }
 
 export interface IAbsence {
-  id: number | string;
+  id: string;
   time_off_type_id: number;
   time_off_type_name: string;
   start_date: string;
@@ -62,7 +63,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
 > {
   private _deferredPropertyPane: PersonioAttendanceFormPropertyPane | undefined;
 
-  public async getAbsences(): Promise<Array<IAbsence>> {
+  public async getAbsences(): Promise<Array<IAbsence>|null> {
     const absences = new Array<IAbsence>();
     const options: ISPHttpClientOptions = {
       method: 'POST',
@@ -78,10 +79,11 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
-        for (const absence of res) {
+      if (res.success === true) {
+        for (const absence of res.data) {
           const attributes = absence.attributes;
           absences.push({
-            id: attributes.id,
+            id: String(attributes.id),
             time_off_type_id: attributes.time_off_type.attributes.id,
             time_off_type_name: attributes.time_off_type.attributes.name,
             start_date: attributes.start_date,
@@ -93,12 +95,14 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
           });
         }
         return absences;
+      } else {
+        this.setState({cardViewContent: res.error.message});
+        return null;
       }
-    );
-    //.catch(err => err);
+    });
   }
 
-  public async getTimeOffTypes(): Promise<Array<ITimeOffType>> {
+  public async getTimeOffTypes(): Promise<Array<ITimeOffType>|null> {
     const types = new Array<ITimeOffType>();
     const options: ISPHttpClientOptions = {
       method: 'POST',
@@ -113,7 +117,8 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
-      for (const type of res) {
+      if (res.success === true) {
+        for (const type of res.data) {
         types.push({
           name: type.attributes.name,
           id: type.attributes.id.toString(),
@@ -121,12 +126,15 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         });
       }
       return types;
+      } else {
+        this.setState({cardViewContent: res.error.message});
+        return null;
+      }
+      
     });
-    //.catch(err => err);
   }
 
-  // add error handling
-  public async getProjects(): Promise<Array<IProject>> {
+  public async getProjects(): Promise<Array<IProject>|null> {
     const projects = new Array<IProject>();
     projects.push({name: '---', id: null});
     const options: ISPHttpClientOptions = {
@@ -143,13 +151,18 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
       .then(res => res.json())
       .then(res => {
-        for (const project of res) {
-          projects.push({
-            name: project.attributes.name,
-            id: project.id.toString()
-          });
+        if (res.success === true) {
+          for (const project of res.data) {
+            projects.push({
+              name: project.attributes.name,
+              id: project.id.toString()
+            });
+          }
+          return projects;
+        } else {
+          this.setState({cardViewContent: res.error.message});
+          return null;
         }
-        return projects;
       });
   }
 
@@ -160,6 +173,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       projects: null, 
       attendanceStage: 'form', 
       holidaysStage: 'overview',
+      cardViewContent: 'Loading...',
       message: null, 
       azureClient: await this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7') 
     };
@@ -168,12 +182,13 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     const absencesPromise = this.getAbsences();
     const projectsPromise = this.getProjects();
 
-    Promise.all([typesPromise, absencesPromise, projectsPromise]).then(res => {
+    Promise.all([typesPromise, absencesPromise, projectsPromise])
+    .then(res => {
       this.setState({
         timeOffTypes: res[0],
         absences: res[1],
         projects: res[2]
-      })
+      });
     });
 
     this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());

@@ -37,7 +37,7 @@ export class CardView extends BaseBasicCardView<IPersonioAttendanceFormAdaptiveC
 
   public get data(): IBasicCardParameters {
     return {
-      primaryText: this.state.projects ? strings.PrimaryText : 'Loading projects...',
+      primaryText: this.state.projects ? strings.PrimaryText : this.state.cardViewContent,
       title: this.properties.title
     };
   }

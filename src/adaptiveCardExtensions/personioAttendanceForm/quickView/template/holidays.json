@@ -2,145 +2,6 @@
   "schema": "http://adaptivecards.io/schemas/adaptive-card.json",
   "type": "AdaptiveCard",
   "version": "1.2",
-  "actions": [
-    {
-      "type": "Action.ShowCard",
-      "title": "Take time off",
-      "card": {
-          "type": "AdaptiveCard",
-          "body": [
-            {
-              "type": "TextBlock",
-              "text": "Absence purpose"
-            },
-            {
-              "type": "Input.ChoiceSet",
-              "id": "time_off_type_id",
-              "choices": [
-                {
-                  "$data": "${timeOffTypes}",
-                  "title": "${name}",
-                  "value": "${id}"
-                }
-              ]
-            },
-            {
-              "type": "ColumnSet",
-              "columns": [
-                {
-                  "type": "Column",
-                  "items": [
-                    {
-                      "type": "TextBlock",
-                      "text": "Start"
-                    },
-                    {
-                      "type": "Input.Date",
-                      "id": "start_date"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": "Half-day start"
-                    },
-                    {
-                      "type": "Input.Toggle",
-                      "title": "",
-                      "id": "half_day_start"
-                    }
-                  ]
-                },
-                {
-                  "type": "Column",
-                  "items": [
-                    {
-                      "type": "TextBlock",
-                      "text": "End"
-                    },
-                    {
-                      "type": "Input.Date",
-                      "id": "end_date"
-                    },
-                    {
-                      "type": "TextBlock",
-                      "text": "Half-day end"
-                    },
-                    {
-                      "type": "Input.Toggle",
-                      "title": "",
-                      "id": "half_day_end"
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "TextBlock",
-              "text": "Comment"
-            },
-            {
-              "type": "Input.Text",
-              "id": "comment"
-            },
-            {
-              "type": "ActionSet",
-              "actions": [
-                {
-                  "type": "Action.Submit",
-                  "title": "Get time-off",
-                  "id": "takeTimeOffButton"
-                }
-              ]
-            }
-          ]
-        }
-    },
-    {
-      "type": "Action.ShowCard",
-      "title": "Delete time-off",
-      "card": {
-          "type": "AdaptiveCard",
-          "body": [
-            {
-              "type": "ColumnSet",
-              "columns": [
-                {
-                  "type": "Column",
-                  "items": [
-                    {
-                      "type": "TextBlock",
-                      "text": "Choose the time off"
-                    }
-                  ]
-                },
-                {
-                  "type": "Column",
-                  "items": [
-                    {
-                      "type": "Input.ChoiceSet",
-                      "id": "id",
-                      "choices": [
-                        {
-                          "$data": "${absences}",
-                          "title": "${id}",
-                          "value": "${id}"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "actions": [
-            {
-              "type": "Action.Submit",
-              "id": "delete",
-              "title": "Delete"
-            }
-          ]
-        }
-    }
-  ],
   "body": [
     {
       "type": "Container",
@@ -149,7 +10,17 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "${id} ${time_off_type_name}"
+          "text": "${id}",
+          "weight": "bolder",
+          "horizontalAlignment": "center"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${time_off_type_name}",
+          "isSubtle": true,
+          "horizontalAlignment": "center",
+          "size": "small",
+          "spacing": "none"
         },
         {
           "type": "ColumnSet",
@@ -159,24 +30,33 @@
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "Start"
+                  "text": "Start",
+                  "horizontalAlignment": "center"
                 },
                 {
                   "type": "TextBlock",
-                  "text": "${start_date}"
+                  "text": "${start_date}",
+                  "horizontalAlignment": "center",
+                  "spacing": "small",
+                  "size": "medium"
                 }
               ]
             },
             {
               "type": "Column",
+              "separator": true,
               "items": [
                 {
                   "type": "TextBlock",
-                  "text": "End"
+                  "text": "End",
+                  "horizontalAlignment": "center"
                 },
                 {
                   "type": "TextBlock",
-                  "text": "${end_date}"
+                  "text": "${end_date}",
+                  "horizontalAlignment": "center",
+                  "spacing": "small",
+                  "size": "medium"
                 }
               ]
             }
@@ -185,7 +65,154 @@
         {
           "type": "TextBlock",
           "text": "${comment}",
-          "$when": "${comment != 'undefined'}"
+          "$when": "${comment != 'undefined'}",
+          "horizontalAlignment": "center",
+          "isSubtle": true
+        }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.ShowCard",
+          "title": "Take time off",
+          "card": {
+              "type": "AdaptiveCard",
+              "body": [
+                {
+                  "type": "TextBlock",
+                  "text": "Absence purpose"
+                },
+                {
+                  "type": "Input.ChoiceSet",
+                  "id": "time_off_type_id",
+                  "choices": [
+                    {
+                      "$data": "${timeOffTypes}",
+                      "title": "${name}",
+                      "value": "${id}"
+                    }
+                  ]
+                },
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Start"
+                        },
+                        {
+                          "type": "Input.Date",
+                          "id": "start_date"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "Half-day start"
+                        },
+                        {
+                          "type": "Input.Toggle",
+                          "title": "",
+                          "id": "half_day_start"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "End"
+                        },
+                        {
+                          "type": "Input.Date",
+                          "id": "end_date"
+                        },
+                        {
+                          "type": "TextBlock",
+                          "text": "Half-day end"
+                        },
+                        {
+                          "type": "Input.Toggle",
+                          "title": "",
+                          "id": "half_day_end"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "TextBlock",
+                  "text": "Comment"
+                },
+                {
+                  "type": "Input.Text",
+                  "id": "comment"
+                },
+                {
+                  "type": "ActionSet",
+                  "actions": [
+                    {
+                      "type": "Action.Submit",
+                      "title": "Get time-off",
+                      "id": "takeTimeOffButton"
+                    }
+                  ]
+                }
+              ]
+            }
+        },
+        {
+          "type": "Action.ShowCard",
+          "title": "Cancel time off",
+          "card": {
+            "type": "AdaptiveCard",
+            "body": [
+              {
+                "type": "ColumnSet",
+                "columns": [
+                  {
+                    "type": "Column",
+                    "items": [
+                      {
+                        "type": "TextBlock",
+                        "text": "Choose the ID"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Column",
+                    "items": [
+                      {
+                        "type": "Input.ChoiceSet",
+                        "id": "id",
+                        "choices": [
+                          {
+                            "$data": "${absences}",
+                            "title": "${id}",
+                            "value": "${id}"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "ActionSet",
+                "actions": [
+                  {
+                    "type": "Action.Submit",
+                    "id": "callOff",
+                    "title": "Cancel"
+                  }
+                ]
+              }
+            ]
+          }
         }
       ]
     }
