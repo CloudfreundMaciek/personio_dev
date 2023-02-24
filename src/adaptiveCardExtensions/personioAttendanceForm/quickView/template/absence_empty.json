@@ -93,6 +93,11 @@
             }
           ]
         }
+    },
+    {
+      "type": "Action.Submit",
+      "id": "back",
+      "title": "Back"
     }
   ],
   "body": [

@@ -1,13 +1,15 @@
 import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import { BaseAdaptiveCardExtension } from '@microsoft/sp-adaptive-card-extension-base';
 import { CardView } from './cardView/CardView';
-import { QuickViewAttendance } from './quickView/QuickViewAttendance';
 import { PersonioAttendanceFormPropertyPane } from './PersonioAttendanceFormPropertyPane';
 import { ISPHttpClientOptions, AadHttpClient } from '@microsoft/sp-http';
-import { QuickViewHolidays } from './quickView/QuickViewHolidays';
+import { QuickViewPersonio } from './quickView/QuickViewAttendance';
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
   title: string;
+  projects: Array<IProject>;
+  timeOffTypes: Array<ITimeOffType>;
+  absences: Array<IAbsence>;
 }
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
@@ -16,6 +18,7 @@ export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
   absences: Array<IAbsence>;
   attendanceStage: string;
   holidaysStage: string;
+  quickViewStage: string;
   message: string;
   cardViewContent: string;
   azureClient: AadHttpClient;
@@ -54,8 +57,7 @@ export interface IProject {
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'PersonioAttendanceForm_CARD_VIEW';
-export const QUICK_VIEW_ATTENDANCE_ID: string = 'PersonioAttendanceForm_QUICK_VIEW';
-export const QUICK_VIEW_HOLIDAYS_ID: string = 'PersonioHolidaysForm_QUICK_VIEW';
+export const QUICK_VIEW_ID: string = 'Personio_QUICK_VIEW';
 
 export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAdaptiveCardExtension<
   IPersonioAttendanceFormAdaptiveCardExtensionProps,
@@ -168,11 +170,12 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
 
   public async onInit(): Promise<void> {
     this.state = { 
-      timeOffTypes: null, 
-      absences: null, 
-      projects: null, 
+      timeOffTypes: this.properties.timeOffTypes, 
+      absences: this.properties.absences, 
+      projects: this.properties.projects, 
       attendanceStage: 'form', 
       holidaysStage: 'overview',
+      quickViewStage: 'menu',
       cardViewContent: 'Loading...',
       message: null, 
       azureClient: await this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7') 
@@ -192,8 +195,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     });
 
     this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
-    this.quickViewNavigator.register(QUICK_VIEW_ATTENDANCE_ID, () => new QuickViewAttendance());
-    this.quickViewNavigator.register(QUICK_VIEW_HOLIDAYS_ID, () => new QuickViewHolidays());
+    this.quickViewNavigator.register(QUICK_VIEW_ID, () => new QuickViewPersonio());
 
     return Promise.resolve();
   }

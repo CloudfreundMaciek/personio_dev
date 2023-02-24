@@ -88,6 +88,11 @@
                   "type": "Action.Submit",
                   "title": "Submit",
                   "id": "submit"
+              },
+              {
+                "type": "Action.Submit",
+                "id": "back",
+                "title": "Back"
               }
           ]
       }

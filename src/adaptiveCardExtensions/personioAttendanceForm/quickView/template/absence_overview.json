@@ -64,6 +64,12 @@
         },
         {
           "type": "TextBlock",
+          "text": "Status: ${status}",
+          "horizontalAlignment": "center",
+          "size": "small"
+        },
+        {
+          "type": "TextBlock",
           "text": "${comment}",
           "$when": "${comment != 'undefined'}",
           "horizontalAlignment": "center",
@@ -74,97 +80,6 @@
     {
       "type": "ActionSet",
       "actions": [
-        {
-          "type": "Action.ShowCard",
-          "title": "Take time off",
-          "card": {
-              "type": "AdaptiveCard",
-              "body": [
-                {
-                  "type": "TextBlock",
-                  "text": "Absence purpose"
-                },
-                {
-                  "type": "Input.ChoiceSet",
-                  "id": "time_off_type_id",
-                  "choices": [
-                    {
-                      "$data": "${timeOffTypes}",
-                      "title": "${name}",
-                      "value": "${id}"
-                    }
-                  ]
-                },
-                {
-                  "type": "ColumnSet",
-                  "columns": [
-                    {
-                      "type": "Column",
-                      "items": [
-                        {
-                          "type": "TextBlock",
-                          "text": "Start"
-                        },
-                        {
-                          "type": "Input.Date",
-                          "id": "start_date"
-                        },
-                        {
-                          "type": "TextBlock",
-                          "text": "Half-day start"
-                        },
-                        {
-                          "type": "Input.Toggle",
-                          "title": "",
-                          "id": "half_day_start"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "Column",
-                      "items": [
-                        {
-                          "type": "TextBlock",
-                          "text": "End"
-                        },
-                        {
-                          "type": "Input.Date",
-                          "id": "end_date"
-                        },
-                        {
-                          "type": "TextBlock",
-                          "text": "Half-day end"
-                        },
-                        {
-                          "type": "Input.Toggle",
-                          "title": "",
-                          "id": "half_day_end"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "TextBlock",
-                  "text": "Comment"
-                },
-                {
-                  "type": "Input.Text",
-                  "id": "comment"
-                },
-                {
-                  "type": "ActionSet",
-                  "actions": [
-                    {
-                      "type": "Action.Submit",
-                      "title": "Get time-off",
-                      "id": "takeTimeOffButton"
-                    }
-                  ]
-                }
-              ]
-            }
-        },
         {
           "type": "Action.ShowCard",
           "title": "Cancel time off",
@@ -207,12 +122,17 @@
                   {
                     "type": "Action.Submit",
                     "id": "callOff",
-                    "title": "Cancel"
+                    "title": "Confirm"
                   }
                 ]
               }
             ]
           }
+        },
+        {
+          "type": "Action.Submit",
+          "id": "back",
+          "title": "Back"
         }
       ]
     }

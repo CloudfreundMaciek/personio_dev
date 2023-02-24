@@ -20,7 +20,10 @@
     "description": { "default": "Personio Attendance Form description" },
     "officeFabricIconFontName": "SharePointLogo",
     "properties": {
-      "title": "Personio Attendance Form"
+      "title": "Personio Attendance Form",
+      "projects": null,
+      "timeOffTypes": null,
+      "absences": null
     },
     "cardSize": "Medium"
   }]

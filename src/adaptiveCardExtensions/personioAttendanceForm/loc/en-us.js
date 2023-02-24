@@ -4,9 +4,9 @@ define([], function() {
     "TitleFieldLabel": "Card title",
     "Title": "Adaptive Card Extension",
     "SubTitle": "Quick view",
-    "PrimaryText": "Register your working hours",
+    "PrimaryText": "Manage your work",
     "Description": "Create your SPFx Adaptive Card Extension solution!",
-    "QuickViewAttendanceButton": "Time form",
+    "QuickViewAttendanceButton": "Personio",
     "QuickViewHolidaysButton": "Holidays"
   }
 });
