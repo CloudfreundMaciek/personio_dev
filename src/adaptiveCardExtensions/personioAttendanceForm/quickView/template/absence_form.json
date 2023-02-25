@@ -1,12 +1,10 @@
 {
     "type": "AdaptiveCard",
+    "version": "1.3",
     "body": [
       {
-        "type": "TextBlock",
-        "text": "Absence purpose"
-      },
-      {
         "type": "Input.ChoiceSet",
+        "label": "Absence's purpose",
         "id": "time_off_type_id",
         "choices": [
           {
@@ -23,20 +21,13 @@
             "type": "Column",
             "items": [
               {
-                "type": "TextBlock",
-                "text": "Start"
-              },
-              {
                 "type": "Input.Date",
+                "label": "Start",
                 "id": "start_date"
               },
               {
-                "type": "TextBlock",
-                "text": "Half-day start"
-              },
-              {
                 "type": "Input.Toggle",
-                "title": "",
+                "label": "Half-day start",
                 "id": "half_day_start"
               }
             ]
@@ -45,20 +36,13 @@
             "type": "Column",
             "items": [
               {
-                "type": "TextBlock",
-                "text": "End"
-              },
-              {
                 "type": "Input.Date",
+                "label": "End",
                 "id": "end_date"
               },
               {
-                "type": "TextBlock",
-                "text": "Half-day end"
-              },
-              {
                 "type": "Input.Toggle",
-                "title": "",
+                "label": "Half-day end",
                 "id": "half_day_end"
               }
             ]
@@ -66,15 +50,13 @@
         ]
       },
       {
-        "type": "TextBlock",
-        "text": "Comment"
-      },
-      {
         "type": "Input.Text",
+        "label": "Comment",
         "id": "comment"
       },
       {
         "type": "ActionSet",
+        "spacing": "large",
         "actions": [
           {
             "type": "Action.Submit",

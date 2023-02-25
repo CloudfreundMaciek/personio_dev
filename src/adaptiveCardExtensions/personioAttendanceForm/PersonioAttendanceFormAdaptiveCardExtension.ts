@@ -16,11 +16,9 @@ export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
   projects: Array<IProject>;
   timeOffTypes: Array<ITimeOffType>;
   absences: Array<IAbsence>;
-  attendanceStage: string;
-  holidaysStage: string;
   quickViewStage: string;
   message: string;
-  cardViewContent: string;
+  error: string;
   azureClient: AadHttpClient;
 }
 
@@ -54,6 +52,7 @@ export interface IWorkRegister {
 export interface IProject {
   id: string;
   name: string;
+  active: boolean;
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'PersonioAttendanceForm_CARD_VIEW';
@@ -98,13 +97,13 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         }
         return absences;
       } else {
-        this.setState({cardViewContent: res.error.message});
+        this.setState({error: res.error.message});
         return null;
       }
     });
   }
 
-  public async getTimeOffTypes(): Promise<Array<ITimeOffType>|null> {
+  public async getAbsenceTypes(): Promise<Array<ITimeOffType>|null> {
     const types = new Array<ITimeOffType>();
     const options: ISPHttpClientOptions = {
       method: 'POST',
@@ -113,7 +112,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        target: 'getTimeOffTypes'
+        target: 'getAbsenceTypes'
       })
     };
     return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
@@ -129,7 +128,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       }
       return types;
       } else {
-        this.setState({cardViewContent: res.error.message});
+        this.setState({error: res.error.message});
         return null;
       }
       
@@ -138,7 +137,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
 
   public async getProjects(): Promise<Array<IProject>|null> {
     const projects = new Array<IProject>();
-    projects.push({name: '---', id: null});
+    projects.push({name: '---', id: null, active: false});
     const options: ISPHttpClientOptions = {
       method: 'POST',
       headers: {
@@ -157,12 +156,13 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
           for (const project of res.data) {
             projects.push({
               name: project.attributes.name,
-              id: project.id.toString()
+              id: project.id.toString(),
+              active: project.attributes.active
             });
           }
           return projects;
         } else {
-          this.setState({cardViewContent: res.error.message});
+          this.setState({error: res.error.message});
           return null;
         }
       });
@@ -173,15 +173,13 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       timeOffTypes: this.properties.timeOffTypes, 
       absences: this.properties.absences, 
       projects: this.properties.projects, 
-      attendanceStage: 'form', 
-      holidaysStage: 'overview',
-      quickViewStage: 'menu',
-      cardViewContent: 'Loading...',
+      quickViewStage: this.properties.timeOffTypes ? 'menu' : null,
+      error: null,
       message: null, 
       azureClient: await this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7') 
     };
 
-    const typesPromise = this.getTimeOffTypes();
+    const typesPromise = this.getAbsenceTypes();
     const absencesPromise = this.getAbsences();
     const projectsPromise = this.getProjects();
 
@@ -190,8 +188,12 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       this.setState({
         timeOffTypes: res[0],
         absences: res[1],
-        projects: res[2]
+        projects: res[2],
+        quickViewStage: 'menu'
       });
+      this.properties.timeOffTypes = res[0];
+      this.properties.absences = res[1];
+      this.properties.projects = res[2];
     });
 
     this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());

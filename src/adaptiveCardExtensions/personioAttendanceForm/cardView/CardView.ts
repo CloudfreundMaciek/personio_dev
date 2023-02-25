@@ -2,15 +2,15 @@ import {
   IExternalLinkCardAction,
   IQuickViewCardAction,
   ICardButton,
-  BaseBasicCardView,
-  IBasicCardParameters
+  BaseImageCardView,
+  IImageCardParameters
 } from '@microsoft/sp-adaptive-card-extension-base';
 import * as strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
 import { IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, QUICK_VIEW_ID } from '../PersonioAttendanceFormAdaptiveCardExtension';
 
-export class CardView extends BaseBasicCardView<IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState> {
+export class CardView extends BaseImageCardView<IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState> {
   public get cardButtons(): [ICardButton] | [ICardButton, ICardButton] | undefined {
-    const quickViewButton: [ICardButton] | undefined = this.state.timeOffTypes ? [
+    const cardButton: [ICardButton] | undefined = (this.state.quickViewStage && !this.state.error) ? [
       {
         title: strings.QuickViewAttendanceButton,
         action: {
@@ -23,21 +23,25 @@ export class CardView extends BaseBasicCardView<IPersonioAttendanceFormAdaptiveC
     ]
     :
     undefined;
-    return quickViewButton;
+    return cardButton;
   }
 
-  public get data(): IBasicCardParameters {
+  public get data(): IImageCardParameters {
     return {
-      primaryText: this.state.projects ? strings.PrimaryText : this.state.cardViewContent
+      primaryText: !this.state.quickViewStage ? (this.state.error ? this.state.error : 'Loading...') : strings.PrimaryText,
+      imageUrl: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/personio_image.png`
     };
   }
 
   public get onCardSelection(): IQuickViewCardAction | IExternalLinkCardAction | undefined {
-    return {
+    const onCardAction: IQuickViewCardAction | undefined = (this.state.quickViewStage && !this.state.error) ? {
       type: 'QuickView',
       parameters: {
         view: QUICK_VIEW_ID
       }
-    };
+    }
+    :
+    undefined;
+    return onCardAction;
   }
 }

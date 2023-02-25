@@ -1,0 +1,84 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "actions": [
+        {
+            "type": "Action.ShowCard",
+            "title": "Delete project",
+            "card": {
+              "type": "AdaptiveCard",
+              "body": [
+                {
+                  "type": "ColumnSet",
+                  "columns": [
+                    {
+                      "type": "Column",
+                      "verticalContentAlignment": "Center",
+                      "items": [
+                        {
+                          "type": "TextBlock",
+                          "text": "Choose the project"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "Column",
+                      "items": [
+                        {
+                          "type": "Input.ChoiceSet",
+                          "id": "id",
+                          "choices": [
+                            {
+                              "$data": "${projects}",
+                              "title": "${name}",
+                              "value": "${id}"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "ActionSet",
+                  "actions": [
+                    {
+                      "type": "Action.Submit",
+                      "id": "deleteProjectButton",
+                      "title": "Delete"
+                    }
+                  ]
+                }
+              ]
+            }
+        },
+        {
+            "type": "Action.Submit",
+            "id": "back",
+            "title": "Back"
+        }
+    ],
+    "body": [
+        {
+            "type": "Container",
+            "$data": "${projects}",
+            "separator": true,
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "${name}",
+                    "size": "medium",
+                    "horizontalAlignment": "center"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Active: ${if(active == true, 'yes', 'no')}",
+                    "size": "small",
+                    "horizontalAlignment": "center",
+                    "isSubtle": true,
+                    "spacing": "none"
+                }
+            ]
+        }
+    ]
+}
