@@ -1,0 +1,86 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Back",
+            "id": "close"
+        }
+    ],
+    "body": [
+        {
+            "$data": "${attendances}",
+            "type": "Container",
+            "separator": true,
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "${date}",
+                    "horizontalAlignment": "center",
+                    "size": "medium"
+                },
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "horizontalAlignment": "center",
+                                    "text": "Since",
+                                    "isSubtle": true,
+                                    "size": "small"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "${start_time}",
+                                    "horizontalAlignment": "center",
+                                    "spacing": "none"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "horizontalAlignment": "center",
+                                    "text": "To",
+                                    "isSubtle": true,
+                                    "size": "small"
+                                },
+                                {
+                                    "type": "TextBlock",
+                                    "text": "${end_time}",
+                                    "horizontalAlignment": "center",
+                                    "spacing": "none"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Break: ${break} minutes",
+                    "horizontalAlignment": "center",
+                    "size": "small"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "Comment",
+                    "horizontalAlignment": "center",
+                    "isSubtle": true,
+                    "$when": "${comment != ''}"
+                },
+                {
+                    "type": "TextBlock",
+                    "text": "${comment}",
+                    "horizontalAlignment": "center",
+                    "spacing": "none"
+                }
+            ]
+        }
+    ]
+}

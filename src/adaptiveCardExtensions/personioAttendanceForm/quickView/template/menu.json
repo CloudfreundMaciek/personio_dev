@@ -6,29 +6,61 @@
             "type": "ActionSet",
             "actions": [
                 {
-                    "type": "Action.Submit",
-                    "id": "attendanceFormMenuButton",
-                    "title": "Attendence form"
+                    "type": "Action.ShowCard",
+                    "title": "Attendance",
+                    "card": {
+                        "type": "AdaptiveCard",
+                        "actions": [
+                            {
+                                "type": "Action.Submit",
+                                "id": "attendanceFormMenuButton",
+                                "title": "Attendence form"
+                            },
+                            {
+                                "type": "Action.Submit",
+                                "id": "attendanceOverviewMenuButton",
+                                "title": "Attendance overview"
+                            }
+                        ]
+                    }
                 },
                 {
-                    "type": "Action.Submit",
-                    "id": "absenceFormMenuButton",
-                    "title": "Absence form"
+                    "type": "Action.ShowCard",
+                    "title": "Absence",
+                    "card": {
+                        "type": "AdaptiveCard",
+                        "actions": [
+                            {
+                                "type": "Action.Submit",
+                                "id": "absenceFormMenuButton",
+                                "title": "Absence form"
+                            },
+                            {
+                                "type": "Action.Submit",
+                                "id": "absenceOverviewMenuButton",
+                                "title": "Absence overview"
+                            }
+                        ]
+                    }
                 },
                 {
-                    "type": "Action.Submit",
-                    "id": "absenceOverviewMenuButton",
-                    "title": "Absence overview"
-                },
-                {
-                    "type": "Action.Submit",
-                    "id": "projectFormMenuButton",
-                    "title": "Project form"
-                },
-                {
-                    "type": "Action.Submit",
-                    "id": "projectOverviewMenuButton",
-                    "title": "Projects' overview"
+                    "type": "Action.ShowCard",
+                    "title": "Project",
+                    "card": {
+                        "type": "AdaptiveCard",
+                        "actions": [
+                            {
+                                "type": "Action.Submit",
+                                "id": "projectFormMenuButton",
+                                "title": "Project form"
+                            },
+                            {
+                                "type": "Action.Submit",
+                                "id": "projectOverviewMenuButton",
+                                "title": "Projects' overview"
+                            }
+                        ]
+                    }
                 }
             ]
         }

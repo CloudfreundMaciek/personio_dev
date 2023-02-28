@@ -3,9 +3,17 @@
     "version": "1.3",
     "body": [
       {
+        "type": "TextBlock",
+        "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days.",
+        "horizontalAlignment": "center",
+        "isSubtle": true,
+        "size": "small"
+      },
+      {
         "type": "Input.ChoiceSet",
         "label": "Absence's purpose",
         "id": "time_off_type_id",
+        "seperator": true,
         "choices": [
           {
             "$data": "${timeOffTypes}",

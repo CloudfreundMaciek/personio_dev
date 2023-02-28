@@ -28,7 +28,7 @@ export class CardView extends BaseImageCardView<IPersonioAttendanceFormAdaptiveC
 
   public get data(): IImageCardParameters {
     return {
-      primaryText: !this.state.quickViewStage ? (this.state.error ? this.state.error : 'Loading...') : strings.PrimaryText,
+      primaryText: this.state.error ? this.state.error : (this.state.quickViewStage ? strings.PrimaryText : "Loading..."),
       imageUrl: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/personio_image.png`
     };
   }

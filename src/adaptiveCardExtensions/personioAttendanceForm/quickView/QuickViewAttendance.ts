@@ -1,7 +1,7 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { AadHttpClient, ISPHttpClientOptions } from '@microsoft/sp-http';
 //import * as strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
-import { IAbsence, IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, IProject, ITimeOffType, IWorkRegister } from '../PersonioAttendanceFormAdaptiveCardExtension';
+import { IAbsence, IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, IProject, ITimeOffType, IAttendance } from '../PersonioAttendanceFormAdaptiveCardExtension';
 
 export interface IQuickViewAttendanceData {
   today: string;
@@ -9,6 +9,9 @@ export interface IQuickViewAttendanceData {
   message: string;
   timeOffTypes: Array<ITimeOffType>;
   absences: Array<IAbsence>;
+  absenceCount: string;
+  absenceLimit: string;
+  attendances: Array<IAttendance>;
 }
 
 export class QuickViewPersonio extends BaseAdaptiveCardView<
@@ -50,7 +53,10 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       projects: projects,
       message: this.state.message,
       absences: absences,
-      timeOffTypes: this.state.timeOffTypes
+      absenceCount: this.state.absenceCount.toString(),
+      absenceLimit: this.state.absenceLimit.toString(),
+      timeOffTypes: this.state.timeOffTypes,
+      attendances: this.state.attendances
     };
   }
 
@@ -79,7 +85,6 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         }
         absences.push(data);
         this.setState({absences: absences, message: "Your request has been successfuly delivered.", quickViewStage: 'response'});
-        this.properties.absences = absences;
       } 
       else {
         this.setState({message: response.error.message, quickViewStage: response});
@@ -109,7 +114,6 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         projects.push(data);
 
         this.setState({message: "The project has been successfuly created!", quickViewStage: 'response', projects: projects});
-        this.properties.projects = projects;
       } 
       else {
         this.setState({message: response.error.message, quickViewStage: 'response'});
@@ -141,12 +145,11 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
           if (project.id !== data.id) projects.push(project);
         }
         this.setState({message: "The project has been successfuly deleted!", quickViewStage: 'response', projects: projects});
-        this.properties.projects = projects;
       }
     });
   }
 
-  public createAttendance (data: IWorkRegister): void {
+  public createAttendance (data: IAttendance): void {
     const options: ISPHttpClientOptions = {
       method: 'POST',
       headers: {
@@ -192,7 +195,6 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         if (absence.id !== data.id) absences.push(absence);
       }
       this.setState({absences: absences, message: response.data.message, quickViewStage: 'response'});
-      this.properties.absences = absences;
       } else {
       this.setState({message: response.error.message, quickViewStage: 'response'});
       }
@@ -204,6 +206,9 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       case 'attendanceForm':
         return require('./template/attendance_form.json');
       
+      case 'attendanceOverview':
+        return require('./template/attendance_overview.json');
+
       case 'absenceForm':
         return require('./template/absence_form.json');
         
@@ -249,7 +254,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         const endTime = end.split(':');
                 
         if(endTime[0]>startTime[0] || (endTime[0]===startTime[0] && endTime[1]>startTime[1])) {
-          const requestData: IWorkRegister = {
+          const requestData: IAttendance = {
             date: action.data.day,
             start_time: action.data.start,
             end_time: action.data.end,
@@ -267,14 +272,11 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
           })
         }
       }
-      else if (action.id === 'back') {
-        this.setState({quickViewStage: 'menu'});
-      }
-      else if (action.id === 'close') {
-        this.setState({quickViewStage: 'menu', message: null});
-      }
       else if (action.id === 'attendanceFormMenuButton') {
         this.setState({quickViewStage: 'attendanceForm'});
+      }
+      else if (action.id === 'attendanceOverviewMenuButton') {
+        this.setState({quickViewStage: 'attendanceOverview'});
       }
       else if (action.id === 'absenceFormMenuButton') {
         this.setState({quickViewStage: 'absenceForm'});
@@ -337,17 +339,16 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         this.setState({quickViewStage: 'loading'});
         this.deleteProject(action.data);
       }
-      else if (action.id === 'close') {
+      else if (action.id === 'close' || action.id === 'back') {
         this.setState({
           quickViewStage: 'menu',
           message: null
-        })
+        });
       }
       else if (action.id === 'callOff') {
         this.setState({quickViewStage: 'loading'});
         this.deleteAbsence(action.data);
       }
-
     }
   }
 }

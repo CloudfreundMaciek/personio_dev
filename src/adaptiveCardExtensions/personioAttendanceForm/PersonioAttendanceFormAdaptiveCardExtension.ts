@@ -7,15 +7,15 @@ import { QuickViewPersonio } from './quickView/QuickViewAttendance';
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
   title: string;
-  projects: Array<IProject>;
-  timeOffTypes: Array<ITimeOffType>;
-  absences: Array<IAbsence>;
 }
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
   projects: Array<IProject>;
   timeOffTypes: Array<ITimeOffType>;
+  attendances: Array<IAttendance>;
   absences: Array<IAbsence>;
+  absenceCount: number;
+  absenceLimit: number;
   quickViewStage: string;
   message: string;
   error: string;
@@ -40,7 +40,7 @@ export interface ITimeOffType {
   canHalfDay: boolean;
 }
 
-export interface IWorkRegister {
+export interface IAttendance {
   date: string;
   start_time: string;
   end_time: string;
@@ -103,6 +103,81 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     });
   }
 
+  public async getAttendances(): Promise<Array<IAttendance>|null> {
+    const nowDate = new Date();
+    
+    let year = nowDate.getFullYear();
+    let month: number | string = nowDate.getMonth()+1;
+    if (month < 10) {
+      month = '0'+month;
+    }
+    let day: number | string = nowDate.getDate();
+    if (day < 10) {
+      day = '0'+day;
+    }
+    const end_date = year+'-'+month+'-'+day;
+    
+    month = +month;
+    day = +day;
+
+    if ((day - 7) <= 0) {
+      day = 30 - (7-day);
+      month--;
+      if (month == 0) {
+        month = 12;
+        year--;
+      }
+    } else day -= 7;
+
+    if (day < 10) {
+      day = '0'+day;
+    }
+    if (month < 10) {
+      month = '0'+month;
+    }
+    const start_date = year+'-'+month+'-'+day;
+    console.log(start_date);
+    console.log(end_date);
+
+    const attendences = new Array<IAttendance>();
+    const options: ISPHttpClientOptions = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        target: 'getAttendances',
+        email: this.context.pageContext.user.email,
+        data: {
+          start_date: start_date,
+          end_date: end_date
+        }
+      })
+    };
+    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    .then(res => res.json())
+    .then(res => {
+      if (res.success === true) {
+        for (const attendance of res.data) {
+          const attributes = attendance.attributes;
+          attendences.push({
+            date: attributes.date,
+            start_time: attributes.start_time,
+            end_time: attributes.end_time,
+            break: attributes.break,
+            comment: attributes.comment,
+            project_id: attendance.id
+          });
+        }
+        return attendences;
+      } else {
+        this.setState({error: res.error.message});
+        return null;
+      }
+    });
+  }
+
   public async getAbsenceTypes(): Promise<Array<ITimeOffType>|null> {
     const types = new Array<ITimeOffType>();
     const options: ISPHttpClientOptions = {
@@ -132,6 +207,33 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         return null;
       }
       
+    });
+  }
+
+  public async getAbsenceCount(): Promise<{current: number; limit: number;}|null> {
+    const options: ISPHttpClientOptions = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        target: 'getAbsenceCount',
+        email: this.context.pageContext.user.email
+      })
+    };
+    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    .then(res => res.json())
+    .then(res => {
+      if (res.success === true) {
+        return {
+          current: res.data.attributes.vacation_day_balance.value,
+          limit: res.data.attributes.absence_entitlement.value[0].attributes.entitlement
+        };
+      } else {
+        this.setState({error: res.error.message});
+        return null;
+      }
     });
   }
 
@@ -170,30 +272,35 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
 
   public async onInit(): Promise<void> {
     this.state = { 
-      timeOffTypes: this.properties.timeOffTypes, 
-      absences: this.properties.absences, 
-      projects: this.properties.projects, 
-      quickViewStage: this.properties.timeOffTypes ? 'menu' : null,
+      timeOffTypes: null, 
+      projects: null,
+      attendances: null,
+      absences: null, 
+      absenceCount: null,
+      absenceLimit: null,
+      quickViewStage: null,
       error: null,
       message: null, 
       azureClient: await this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7') 
     };
 
     const typesPromise = this.getAbsenceTypes();
+    const attendancesPromise = this.getAttendances();
     const absencesPromise = this.getAbsences();
+    const absenceCount = this.getAbsenceCount();
     const projectsPromise = this.getProjects();
 
-    Promise.all([typesPromise, absencesPromise, projectsPromise])
+    Promise.all([typesPromise, absencesPromise, projectsPromise, absenceCount, attendancesPromise])
     .then(res => {
       this.setState({
         timeOffTypes: res[0],
         absences: res[1],
         projects: res[2],
+        absenceCount: res[3].current,
+        absenceLimit: res[3].limit,
+        attendances: res[4],
         quickViewStage: 'menu'
       });
-      this.properties.timeOffTypes = res[0];
-      this.properties.absences = res[1];
-      this.properties.projects = res[2];
     });
 
     this.cardNavigator.register(CARD_VIEW_REGISTRY_ID, () => new CardView());
