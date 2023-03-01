@@ -92,6 +92,7 @@
           "title": "Cancel time off",
           "card": {
             "type": "AdaptiveCard",
+            "version": "1.3",
             "body": [
               {
                 "type": "ColumnSet",
@@ -129,7 +130,7 @@
                 "actions": [
                   {
                     "type": "Action.Submit",
-                    "id": "callOff",
+                    "id": "callOffAbsenceButton",
                     "title": "Confirm"
                   }
                 ]

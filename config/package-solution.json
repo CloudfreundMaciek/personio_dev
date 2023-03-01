@@ -3,7 +3,7 @@
   "solution": {
     "name": "personio-dev-client-side-solution",
     "id": "19faadd9-84c8-4e32-9569-2afd9c04503a",
-    "version": "1.0.0.0",
+    "version": "2.0.0.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

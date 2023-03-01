@@ -1,10 +1,9 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { AadHttpClient, ISPHttpClientOptions } from '@microsoft/sp-http';
 //import * as strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
-import { IAbsence, IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, IProject, ITimeOffType, IAttendance } from '../PersonioAttendanceFormAdaptiveCardExtension';
+import { IAbsence, IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, IProject, ITimeOffType, IAttendance, IDatesPack, sortAttendances } from '../PersonioAttendanceFormAdaptiveCardExtension';
 
 export interface IQuickViewAttendanceData {
-  today: string;
   projects: Array<IProject>;
   message: string;
   timeOffTypes: Array<ITimeOffType>;
@@ -12,6 +11,7 @@ export interface IQuickViewAttendanceData {
   absenceCount: string;
   absenceLimit: string;
   attendances: Array<IAttendance>;
+  dates: IDatesPack;
 }
 
 export class QuickViewPersonio extends BaseAdaptiveCardView<
@@ -20,18 +20,6 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
   IQuickViewAttendanceData
 > {
   public get data(): IQuickViewAttendanceData {
-    const nowDate = new Date();
-    
-    const year = nowDate.getFullYear();
-    let month: number | string = nowDate.getMonth()+1;
-    if (month < 10) {
-      month = '0'+month;
-    }
-    let day: number | string = nowDate.getDate();
-    if (day < 10) {
-      day = '0'+day;
-    }
-    const date = year+'-'+month+'-'+day;
 
     const absences = this.state.absences;
     for (const absence of absences) {
@@ -49,14 +37,14 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
     } else projects = this.state.projects;
 
     return {
-      today: date,
       projects: projects,
       message: this.state.message,
       absences: absences,
       absenceCount: this.state.absenceCount.toString(),
       absenceLimit: this.state.absenceLimit.toString(),
       timeOffTypes: this.state.timeOffTypes,
-      attendances: this.state.attendances
+      attendances: this.state.attendances,
+      dates: this.state.dates
     };
   }
 
@@ -166,9 +154,50 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
-        this.setState({message: res.data.message, quickViewStage: 'response'})
+        if (data.comment == undefined) data.comment = '';
+        data.id = res.data.id[0].toString();
+        
+        if (data.project_id) {
+          for (const project of this.state.projects) {
+            if (+project.id === data.project_id) data.project_name = project.name
+          }
+        }
+
+        const attendances = this.state.attendances;
+        attendances.push(data);
+        this.setState({message: res.data.message, quickViewStage: 'response', attendances: sortAttendances(attendances)});
       } else {
-        this.setState({message: res.error.message, quickViewStage: 'response'})
+        this.setState({message: res.error.message, quickViewStage: 'response'});
+      }
+    });
+  }
+
+  private deleteAttendance(data: {id: string}): void {
+    const options: ISPHttpClientOptions = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        target: 'deleteAttendance',
+        data: {
+          id: +data.id
+        },
+        email: this.context.pageContext.user.email
+      })
+    };
+    this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    .then(response => response.json())
+    .then(response => {
+      if (response.success === true) {
+        const attendances = new Array<IAttendance>();
+        for (const attendance of this.state.attendances) {
+          if (attendance.id != data.id) attendances.push(attendance);
+        }
+        this.setState({attendances: attendances, message: response.data.message, quickViewStage: 'response'});
+      } else {
+        this.setState({message: response.error.message, quickViewStage: 'response'});
       }
     });
   }
@@ -207,7 +236,8 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         return require('./template/attendance_form.json');
       
       case 'attendanceOverview':
-        return require('./template/attendance_overview.json');
+        if (this.state.attendances.length !== 0) return require('./template/attendance_overview.json');
+        else return require('./template/attendance_empty.json');
 
       case 'absenceForm':
         return require('./template/absence_form.json');
@@ -260,7 +290,9 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
             end_time: action.data.end,
             break: +action.data.break,
             comment: action.data.comment,
-            project_id: +action.data.project
+            project_id: (action.data.project == undefined) ? null : +action.data.project,
+            project_name: '',
+            id: null
           }
           this.setState({quickViewStage: 'loading'});
           this.createAttendance(requestData);
@@ -336,8 +368,10 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         }
       }
       else if (action.id === 'deleteProjectButton') {
-        this.setState({quickViewStage: 'loading'});
-        this.deleteProject(action.data);
+        if (action.data?.id != undefined) {
+          this.setState({quickViewStage: 'loading'});
+          this.deleteProject(action.data);
+        }
       }
       else if (action.id === 'close' || action.id === 'back') {
         this.setState({
@@ -345,9 +379,17 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
           message: null
         });
       }
-      else if (action.id === 'callOff') {
-        this.setState({quickViewStage: 'loading'});
-        this.deleteAbsence(action.data);
+      else if (action.id === 'callOffAbsenceButton') {
+        if (action.data?.id != undefined) {
+          this.setState({quickViewStage: 'loading'});
+          this.deleteAbsence(action.data);
+        }
+      }
+      else if (action.id === 'deleteAttendanceButton') {
+        if (action.data?.id != undefined) {
+          this.setState({quickViewStage: 'loading'});
+          this.deleteAttendance(action.data);
+        }
       }
     }
   }

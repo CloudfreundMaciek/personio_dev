@@ -19,6 +19,7 @@ export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
   quickViewStage: string;
   message: string;
   error: string;
+  dates: IDatesPack;
   azureClient: AadHttpClient;
 }
 
@@ -47,12 +48,54 @@ export interface IAttendance {
   break: number;
   comment: string;
   project_id: number;
+  project_name: string;
+  id: string;
 }
 
 export interface IProject {
   id: string;
   name: string;
   active: boolean;
+}
+
+export interface IDatesPack {
+  today_date: string; 
+  week_ago_date: string;
+}
+
+export function sortAttendances (attendances: Array<IAttendance>): Array<IAttendance> {
+  attendances.sort((a: IAttendance, b: IAttendance): number => {
+    const aYear = +a.date.slice(0,4);
+    const bYear = +b.date.slice(0,4);
+    
+    return aYear-bYear;
+  });
+  attendances.sort((a: IAttendance, b:IAttendance): number => {
+    const aYear = +a.date.slice(0,4);
+    const bYear = +b.date.slice(0,4);
+
+    if (aYear === bYear) {
+      const aMonth = +a.date.slice(5, 7);
+      const bMonth = +b.date.slice(5, 7);
+      return aMonth - bMonth;
+    } else return 1;
+  });
+  attendances.sort((a: IAttendance, b:IAttendance): number => {
+    const aYear = +a.date.slice(0,4);
+    const bYear = +b.date.slice(0,4);
+
+    if (aYear === bYear) {
+      const aMonth = +a.date.slice(5, 7);
+      const bMonth = +b.date.slice(5, 7);
+      if (aMonth === bMonth) {
+        const aDay = +a.date.slice(8);
+        const bDay = +b.date.slice(8);
+        return (aDay-bDay);
+      } else return 1;
+    } else return 1;
+  });
+
+  return attendances;
 }
 
 const CARD_VIEW_REGISTRY_ID: string = 'PersonioAttendanceForm_CARD_VIEW';
@@ -63,6 +106,43 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
   IPersonioAttendanceFormAdaptiveCardExtensionState
 > {
   private _deferredPropertyPane: PersonioAttendanceFormPropertyPane | undefined;
+
+  public define_dates(): IDatesPack {
+    const nowDate = new Date();
+    
+    let year = nowDate.getFullYear();
+    let month: number | string = nowDate.getMonth()+1;
+    if (month < 10) {
+      month = '0'+month;
+    }
+    let day: number | string = nowDate.getDate();
+    if (day < 10) {
+      day = '0'+day;
+    }
+    const today_date = year+'-'+month+'-'+day;
+    
+    month = +month;
+    day = +day;
+
+    if ((day - 7) <= 0) {
+      day = 30 - (7-day);
+      month--;
+      if (month === 0) {
+        month = 12;
+        year--;
+      }
+    } else day -= 7;
+
+    if (day < 10) {
+      day = '0'+day;
+    }
+    if (month < 10) {
+      month = '0'+month;
+    }
+    const week_ago_date = year+'-'+month+'-'+day;
+
+    return {today_date: today_date, week_ago_date: week_ago_date};
+  }
 
   public async getAbsences(): Promise<Array<IAbsence>|null> {
     const absences = new Array<IAbsence>();
@@ -104,42 +184,8 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
   }
 
   public async getAttendances(): Promise<Array<IAttendance>|null> {
-    const nowDate = new Date();
-    
-    let year = nowDate.getFullYear();
-    let month: number | string = nowDate.getMonth()+1;
-    if (month < 10) {
-      month = '0'+month;
-    }
-    let day: number | string = nowDate.getDate();
-    if (day < 10) {
-      day = '0'+day;
-    }
-    const end_date = year+'-'+month+'-'+day;
-    
-    month = +month;
-    day = +day;
 
-    if ((day - 7) <= 0) {
-      day = 30 - (7-day);
-      month--;
-      if (month == 0) {
-        month = 12;
-        year--;
-      }
-    } else day -= 7;
-
-    if (day < 10) {
-      day = '0'+day;
-    }
-    if (month < 10) {
-      month = '0'+month;
-    }
-    const start_date = year+'-'+month+'-'+day;
-    console.log(start_date);
-    console.log(end_date);
-
-    const attendences = new Array<IAttendance>();
+    const attendances = new Array<IAttendance>();
     const options: ISPHttpClientOptions = {
       method: 'POST',
       headers: {
@@ -150,8 +196,8 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         target: 'getAttendances',
         email: this.context.pageContext.user.email,
         data: {
-          start_date: start_date,
-          end_date: end_date
+          start_date: this.state.dates.week_ago_date,
+          end_date: this.state.dates.today_date
         }
       })
     };
@@ -161,16 +207,19 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       if (res.success === true) {
         for (const attendance of res.data) {
           const attributes = attendance.attributes;
-          attendences.push({
+          attendances.push({
             date: attributes.date,
             start_time: attributes.start_time,
             end_time: attributes.end_time,
             break: attributes.break,
             comment: attributes.comment,
-            project_id: attendance.id
+            project_id: attributes.project ? attributes.project.id : '',
+            project_name: attributes.project ? attributes.project.attributes.name : '',
+            id: attendance.id.toString()
           });
         }
-        return attendences;
+
+        return sortAttendances(attendances);
       } else {
         this.setState({error: res.error.message});
         return null;
@@ -271,7 +320,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
   }
 
   public async onInit(): Promise<void> {
-    this.state = { 
+    this.state = {
       timeOffTypes: null, 
       projects: null,
       attendances: null,
@@ -281,6 +330,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       quickViewStage: null,
       error: null,
       message: null, 
+      dates: this.define_dates(), 
       azureClient: await this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7') 
     };
 

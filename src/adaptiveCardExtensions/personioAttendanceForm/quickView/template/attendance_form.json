@@ -6,7 +6,7 @@
       {
           "type": "Input.Date",
           "label": "Day",
-          "value": "${today}",
+          "value": "${dates.today_date}",
           "id": "day"
       },
       {
