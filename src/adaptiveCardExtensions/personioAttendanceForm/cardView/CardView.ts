@@ -31,7 +31,7 @@ export class CardView extends BaseImageCardView<IPersonioAttendanceFormAdaptiveC
   public get data(): IImageCardParameters {
     return {
       primaryText: this.state.error ? this.state.error : (this.state.quickViewStage ? strings.PrimaryText : "Loading..."),
-      imageUrl: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/personio_image.png`
+      imageUrl: this.getSVGimg()//`${this.context.pageContext.site.absoluteUrl}/SiteAssets/personio_image.png`
     };
   }
 
@@ -47,10 +47,13 @@ export class CardView extends BaseImageCardView<IPersonioAttendanceFormAdaptiveC
     return onCardAction;
   }
 
-  private getSVGimg() {
-    return svgToTinyDataUri(`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <rect x="10" y="10" width="60" height="80" rx="10" ry="10" fill="none" stroke="black" stroke-width="5"/>
-    <path d="M 70 50 C 70 70, 55 85, 35 85" stroke="black" stroke-width="5" fill="none"/> </svg>
+  private getSVGimg() { //xmlns="http://www.w3.org/2000/svg"
+    return svgToTinyDataUri(`<svg xmlns="http://www.w3.org/2000/svg" width="150" height="110" viewBox="-100, -50, 300, 220">
+    <line x1="30" y1="5" x2="10" y2="100" stroke-width="5" stroke="#000"/>
+    <ellipse cx="30" cy="40" rx="50" ry="25" fill="#FFF" stroke="#000" stroke-width="4"/>
+    <ellipse cx="25" cy=" 98" rx="4" ry="4"/>
+    <line x1="5" y1="105" x2="35" y2="105" stroke="#000" stroke-width="4" />
+  </svg>
   `);
   }
 }
