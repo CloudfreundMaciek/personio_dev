@@ -13,7 +13,6 @@
   },
   "externals": {},
   "localizedResources": {
-    "PersonioAttendanceFormAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/personioAttendanceForm/loc/{locale}.js",
-    "HolidaysFormAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/holidaysForm/loc/{locale}.js"
+    "PersonioAttendanceFormAdaptiveCardExtensionStrings": "lib/adaptiveCardExtensions/personioAttendanceForm/loc/{locale}.js"
   }
 }

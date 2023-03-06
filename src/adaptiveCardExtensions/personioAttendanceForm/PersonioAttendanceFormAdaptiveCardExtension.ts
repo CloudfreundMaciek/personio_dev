@@ -137,6 +137,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       day = '0'+day;
     }
     if (month < 10) {
+      if (month === 2 && +day >= 29) day = 28;
       month = '0'+month;
     }
     const week_ago_date = year+'-'+month+'-'+day;

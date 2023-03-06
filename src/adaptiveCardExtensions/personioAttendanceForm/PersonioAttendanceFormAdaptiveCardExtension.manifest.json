@@ -16,9 +16,9 @@
   "preconfiguredEntries": [{
     "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
     "group": { "default": "Dashboard" },
-    "title": { "default": "Personio Attendance Form" },
-    "description": { "default": "Personio Attendance Form description" },
-    "officeFabricIconFontName": "SharePointLogo",
+    "title": { "default": "Personio" },
+    "description": { "default": "Enable your employees to manage their attendances, absences and projects in one place" },
+    "officeFabricIconFontName": "PageHeaderEdit",
     "properties": {
       "title": "Personio Attendance Form"
     },
