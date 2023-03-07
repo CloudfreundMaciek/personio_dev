@@ -305,7 +305,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       .then(res => res.json())
       .then(res => {
         if (res.success === true) {
-          for (const project of res.data) {
+          for (const project of res.data) {            
             projects.push({
               name: project.attributes.name,
               id: project.id.toString(),

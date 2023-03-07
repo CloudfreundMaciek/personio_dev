@@ -7,23 +7,11 @@
             "columns": [
                 {
                     "type": "Column",
-                    "width": "stretch",
                     "items": [
                         {
                             "type": "Input.Text",
                             "label": "Title",
                             "id": "name"
-                        }
-                    ]
-                },
-                {
-                    "type": "Column",
-                    "width": "auto",
-                    "items": [
-                        {
-                            "type": "Input.Toggle",
-                            "label": "Activ",
-                            "id": "active"
                         }
                     ]
                 }
@@ -35,7 +23,10 @@
                 {
                     "type": "Action.Submit",
                     "id": "createProjectButton",
-                    "title": "Create a project"
+                    "title": "Create a project",
+                    "data": {
+                        "active": true
+                    }
                 },
                 {
                     "type": "Action.Submit",

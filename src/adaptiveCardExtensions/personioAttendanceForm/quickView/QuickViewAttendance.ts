@@ -63,7 +63,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
     };
     this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
     .then(response => response.json())
-    .then(response => {
+    .then(async response => {
       if (response.success === true) {
         const absences = this.state.absences;
         data.id = response.data.attributes.id;
@@ -72,7 +72,9 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
           if (+type.id === data.time_off_type_id) data.time_off_type_name = type.name;
         }
         absences.push(data);
-        this.setState({absences: absences, message: "Your request has been successfuly delivered.", quickViewStage: 'response'});
+
+        const absenceCount = await this.getAbsenceCount();
+        this.setState({absences: absences, message: "Your request has been successfuly delivered.", quickViewStage: 'response', absenceCount: absenceCount.current});
       } 
       else {
         this.setState({message: response.error.message, quickViewStage: response});
@@ -109,7 +111,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
     });
   }
 
-  private deleteProject(data: any): void {
+  private finishProject(data: any): void {
     const options: ISPHttpClientOptions = {
       method: 'POST',
       headers: {
@@ -117,7 +119,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         'content-type': 'application/json'
       },
       body: JSON.stringify({
-        target: 'deleteProject',
+        target: 'finishProject',
         data,
         email: this.context.pageContext.user.email
       })
@@ -128,11 +130,14 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       if (response?.success === false) {
         this.setState({message: response.error.message, quickViewStage: 'response'});
       } else {
-        const projects = new Array<IProject>();
-        for (const project of this.state.projects) {
-          if (project.id !== data.id) projects.push(project);
+        const projects = this.state.projects;
+        for (const project of projects) {
+          if (project.id === data.id) {
+            project.active = false;
+            break;
+          }
         }
-        this.setState({message: "The project has been successfuly deleted!", quickViewStage: 'response', projects: projects});
+        this.setState({message: "The project has been successfuly finished!", quickViewStage: 'response', projects: projects});
       }
     });
   }
@@ -229,6 +234,34 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       }
     });
   }
+
+  public async getAbsenceCount(): Promise<{current: number; limit: number;}|null> {
+    const options: ISPHttpClientOptions = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        target: 'getAbsenceCount',
+        email: this.context.pageContext.user.email
+      })
+    };
+    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    .then(res => res.json())
+    .then(res => {
+      if (res.success === true) {
+        return {
+          current: res.data.attributes.vacation_day_balance.value,
+          limit: res.data.attributes.absence_entitlement.value[0].attributes.entitlement
+        };
+      } else {
+        this.setState({error: res.error.message});
+        return null;
+      }
+    });
+  }
+
 
   public get template(): ISPFxAdaptiveCard {
     switch (this.state.quickViewStage) {
@@ -336,7 +369,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         const startTime = start.replace('-', '').replace('-', '');
         const endTime = end.replace('-', '').replace('-', '');
                 
-        if (startTime < endTime) {
+        if (startTime <= endTime) {
           const requestData: IAbsence = {
             id: null,
             time_off_type_id: +action.data.time_off_type_id,
@@ -363,14 +396,13 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
           this.setState({message: "You have to name your project.", quickViewStage: 'response'});
         } else {
           this.setState({quickViewStage: 'loading'});
-          if (action.data.active === 'true') action.data.active = true;
           this.createProject(action.data);
         }
       }
-      else if (action.id === 'deleteProjectButton') {
+      else if (action.id === 'metaProjectButton') {
         if (action.data?.id != undefined) {
           this.setState({quickViewStage: 'loading'});
-          this.deleteProject(action.data);
+          this.finishProject(action.data);
         }
       }
       else if (action.id === 'close' || action.id === 'back') {

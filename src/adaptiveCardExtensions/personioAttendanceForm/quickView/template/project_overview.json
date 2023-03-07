@@ -4,7 +4,7 @@
     "actions": [
         {
             "type": "Action.ShowCard",
-            "title": "Delete project",
+            "title": "Finish project",
             "card": {
               "type": "AdaptiveCard",
               "body": [
@@ -29,6 +29,7 @@
                           "id": "id",
                           "choices": [
                             {
+                              "$when": "${active == true}",
                               "$data": "${projects}",
                               "title": "${name}",
                               "value": "${id}"
@@ -44,8 +45,8 @@
                   "actions": [
                     {
                       "type": "Action.Submit",
-                      "id": "deleteProjectButton",
-                      "title": "Delete"
+                      "id": "metaProjectButton",
+                      "title": "Meta"
                     }
                   ]
                 }
@@ -62,6 +63,7 @@
         {
             "type": "Container",
             "$data": "${projects}",
+            "$when": "${active == true}",
             "separator": true,
             "items": [
                 {
@@ -69,14 +71,6 @@
                     "text": "${name}",
                     "size": "medium",
                     "horizontalAlignment": "center"
-                },
-                {
-                    "type": "TextBlock",
-                    "text": "Active: ${if(active == true, 'yes', 'no')}",
-                    "size": "small",
-                    "horizontalAlignment": "center",
-                    "isSubtle": true,
-                    "spacing": "none"
                 }
             ]
         }
