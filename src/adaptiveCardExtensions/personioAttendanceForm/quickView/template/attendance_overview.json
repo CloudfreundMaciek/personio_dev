@@ -139,10 +139,10 @@
               "items": [
                 {
                   "type": "ActionSet",
-                  "style": "destructive",
                   "actions": [
                     {
                       "type": "Action.ShowCard",
+                      "style": "destructive",
                       "title": "Delete attendance",
                       "card": {
                         "type": "AdaptiveCard",
