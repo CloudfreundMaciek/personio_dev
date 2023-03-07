@@ -140,7 +140,7 @@
         },
         {
           "type": "Action.Submit",
-          "id": "back",
+          "id": "absenceMenuButton",
           "title": "Back"
         }
       ]

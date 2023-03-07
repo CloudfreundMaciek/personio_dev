@@ -1,0 +1,61 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "style": "emphasis",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Attendance",
+                    "horizontalAlignment": "center",
+                    "weight": "bolder",
+                    "size": "medium"
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "id": "attendanceFormMenuButton",
+                                    "title": "Form"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "id": "attendanceOverviewMenuButton",
+                                    "title": "Overview"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "id": "back",
+            "title": "Back"
+        }
+    ]
+}

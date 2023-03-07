@@ -10,7 +10,7 @@
     },
     {
       "type": "Action.Submit",
-      "id": "back",
+      "id": "attendanceMenuButton",
       "title": "Back"
     }
   ],

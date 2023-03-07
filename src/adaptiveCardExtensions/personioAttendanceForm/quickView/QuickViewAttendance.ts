@@ -12,6 +12,8 @@ export interface IQuickViewAttendanceData {
   absenceLimit: string;
   attendances: Array<IAttendance>;
   dates: IDatesPack;
+  stage: string;
+  icons: any;
 }
 
 export class QuickViewPersonio extends BaseAdaptiveCardView<
@@ -36,6 +38,12 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       }
     } else projects = this.state.projects;
 
+    const icons = {
+      attendance: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/suitcase.png`,
+      absence: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/luggage.png`,
+      project: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/files.png`
+    };
+
     return {
       projects: projects,
       message: this.state.message,
@@ -44,7 +52,9 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       absenceLimit: this.state.absenceLimit.toString(),
       timeOffTypes: this.state.timeOffTypes,
       attendances: this.state.attendances,
-      dates: this.state.dates
+      dates: this.state.dates,
+      stage: this.state.quickViewStage,
+      icons: icons
     };
   }
 
@@ -265,6 +275,15 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
 
   public get template(): ISPFxAdaptiveCard {
     switch (this.state.quickViewStage) {
+      case 'attendanceMenu':
+        return require('./template/attendance_menu.json');
+
+      case 'absenceMenu':
+        return require('./template/absence_menu.json');
+
+      case 'projectMenu':
+        return require('./template/project_menu.json');
+    
       case 'attendanceForm':
         return require('./template/attendance_form.json');
       
@@ -336,6 +355,15 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
             quickViewStage: 'response'
           })
         }
+      }
+      else if (action.id === 'attendanceMenuButton') {
+        this.setState({quickViewStage: 'attendanceMenu'});
+      }
+      else if (action.id === 'absenceMenuButton') {
+        this.setState({quickViewStage: 'absenceMenu'});
+      }
+      else if (action.id === 'projectMenuButton') {
+        this.setState({quickViewStage: 'projectMenu'});
       }
       else if (action.id === 'attendanceFormMenuButton') {
         this.setState({quickViewStage: 'attendanceForm'});

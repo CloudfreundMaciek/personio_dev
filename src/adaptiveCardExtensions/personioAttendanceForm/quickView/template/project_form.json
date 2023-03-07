@@ -30,7 +30,7 @@
                 },
                 {
                     "type": "Action.Submit",
-                    "id": "back",
+                    "id": "projectMenuButton",
                     "title": "Back"
                 }
             ]

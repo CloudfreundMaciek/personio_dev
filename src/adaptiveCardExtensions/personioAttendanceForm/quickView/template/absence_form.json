@@ -14,6 +14,7 @@
         "label": "Absence's purpose",
         "id": "time_off_type_id",
         "seperator": true,
+        "isRequired": true,
         "choices": [
           {
             "$data": "${timeOffTypes}",
@@ -30,6 +31,7 @@
             "items": [
               {
                 "type": "Input.Date",
+                "isRequired": true,
                 "label": "Start",
                 "id": "start_date"
               },
@@ -73,7 +75,7 @@
           },
           {
             "type": "Action.Submit",
-            "id": "back",
+            "id": "absenceMenuButton",
             "title": "Back"
           }
         ]

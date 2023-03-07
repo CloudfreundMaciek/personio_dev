@@ -3,66 +3,106 @@
     "version": "1.3",
     "body": [
         {
-            "type": "ActionSet",
-            "actions": [
+            "type": "ColumnSet",
+            "style": "emphasis",
+            "columns": [
                 {
-                    "type": "Action.ShowCard",
-                    "title": "Attendance",
-                    "card": {
-                        "type": "AdaptiveCard",
-                        "actions": [
-                            {
-                                "type": "Action.Submit",
-                                "id": "attendanceFormMenuButton",
-                                "title": "Attendence form"
-                            },
-                            {
-                                "type": "Action.Submit",
-                                "id": "attendanceOverviewMenuButton",
-                                "title": "Attendance overview"
-                            }
-                        ]
-                    }
+                    "type": "Column",
+                    "width": "80px",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "${icons.attendance}"
+                        }
+                    ]
                 },
                 {
-                    "type": "Action.ShowCard",
-                    "title": "Absence",
-                    "card": {
-                        "type": "AdaptiveCard",
-                        "actions": [
-                            {
-                                "type": "Action.Submit",
-                                "id": "absenceFormMenuButton",
-                                "title": "Absence form"
-                            },
-                            {
-                                "type": "Action.Submit",
-                                "id": "absenceOverviewMenuButton",
-                                "title": "Absence overview"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "type": "Action.ShowCard",
-                    "title": "Project",
-                    "card": {
-                        "type": "AdaptiveCard",
-                        "actions": [
-                            {
-                                "type": "Action.Submit",
-                                "id": "projectFormMenuButton",
-                                "title": "Project form"
-                            },
-                            {
-                                "type": "Action.Submit",
-                                "id": "projectOverviewMenuButton",
-                                "title": "Projects' overview"
-                            }
-                        ]
-                    }
+                    "type": "Column",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Attendance",
+                            "horizontalAlignment": "center",
+                            "weight": "bolder",
+                            "size": "medium"
+                        }
+                    ]
                 }
-            ]
+            ],
+            "selectAction": {
+                "type": "Action.Submit",
+                "title": "Attendance",
+                "id": "attendanceMenuButton"
+            }
+        },
+        {
+            "type": "ColumnSet",
+            "style": "emphasis",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "80px",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "${icons.absence}"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Absence",
+                            "horizontalAlignment": "center",
+                            "weight": "bolder",
+                            "size": "medium"
+                        }
+                    ]
+                }
+            ],
+            "selectAction": {
+                "type": "Action.Submit",
+                "title": "Attendance",
+                "id": "absenceMenuButton"
+            }
+        },
+        {
+            "type": "ColumnSet",
+            "style": "emphasis",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "80px",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "${icons.project}"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Project",
+                            "horizontalAlignment": "center",
+                            "weight": "bolder",
+                            "size": "medium"
+                        }
+                    ]
+                }
+            ],
+            "selectAction": {
+                "type": "Action.Submit",
+                "title": "Attendance",
+                "id": "projectMenuButton"
+            }
         }
     ]
 }

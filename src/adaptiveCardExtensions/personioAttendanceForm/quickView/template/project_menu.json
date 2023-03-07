@@ -1,0 +1,21 @@
+{
+    "type": "AdaptiveCard",
+    "version": "1.3",
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "id": "projectFormMenuButton",
+            "title": "Project form"
+        },
+        {
+            "type": "Action.Submit",
+            "id": "projectOverviewMenuButton",
+            "title": "Projects' overview"
+        },
+        {
+            "type": "Action.Submit",
+            "id": "back",
+            "title": "Back"
+        }
+    ]
+}

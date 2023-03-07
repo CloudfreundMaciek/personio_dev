@@ -1,164 +1,217 @@
 {
     "type": "AdaptiveCard",
     "version": "1.3",
-    "actions": [
-        {
-            "type": "Action.ShowCard",
-            "title": "Delete attendance",
-            "card": {
-              "type": "AdaptiveCard",
-              "version": "1.3",
-              "body": [
-                {
-                  "type": "ColumnSet",
-                  "columns": [
-                    {
-                      "type": "Column",
-                      "verticalContentAlignment": "center",
-                      "items": [
-                        {
-                          "type": "TextBlock",
-                          "text": "Choose the ID"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "Column",
-                      "items": [
-                        {
-                          "type": "Input.ChoiceSet",
-                          "id": "id",
-                          "choices": [
-                            {
-                              "$data": "${attendances}",
-                              "title": "${id}",
-                              "value": "${id}"
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "ActionSet",
-                  "actions": [
-                    {
-                      "type": "Action.Submit",
-                      "id": "deleteAttendanceButton",
-                      "title": "Confirm"
-                    }
-                  ]
-                }
-              ]
-            }
-        },
-        {
-            "type": "Action.Submit",
-            "title": "Back",
-            "id": "back"
-        }
-    ],
     "body": [
         {
-            "type": "TextBlock",
-            "text": "Since ${dates.today_date} till now",
-            "horizontalAlignment": "center",
-            "wrap": true
+          "type": "Container",
+          "style": "emphasis",
+          "height": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Attendance overview",
+              "horizontalAlignment": "center",
+              "weight": "bolder",
+              "height": "auto",
+              "size": "medium"
+            },
+            {
+              "type": "TextBlock",
+              "text": "Since ${dates.week_ago_date} till now",
+              "horizontalAlignment": "center",
+              "wrap": true,
+              "spacing": "none",
+              "size": "small"
+            }
+          ]
         },
         {
             "$data": "${attendances}",
             "type": "Container",
             "separator": true,
             "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "${id}",
-                    "horizontalAlignment": "center",
-                    "size": "small",
-                    "isSubtle": true
-                },
-                {
-                    "type": "TextBlock",
-                    "text": "${date}",
-                    "horizontalAlignment": "center",
-                    "size": "medium",
-                    "spacing": "none"
-                },
-                {
-                    "type": "ColumnSet",
-                    "columns": [
-                        {
-                            "type": "Column",
-                            "items": [
-                                {
-                                    "type": "TextBlock",
-                                    "horizontalAlignment": "center",
-                                    "text": "Since",
-                                    "isSubtle": true,
-                                    "size": "small"
-                                },
-                                {
-                                    "type": "TextBlock",
-                                    "text": "${start_time}",
-                                    "horizontalAlignment": "center",
-                                    "spacing": "none"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "Column",
-                            "items": [
-                                {
-                                    "type": "TextBlock",
-                                    "horizontalAlignment": "center",
-                                    "text": "To",
-                                    "isSubtle": true,
-                                    "size": "small"
-                                },
-                                {
-                                    "type": "TextBlock",
-                                    "text": "${end_time}",
-                                    "horizontalAlignment": "center",
-                                    "spacing": "none"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "type": "TextBlock",
-                    "text": "Break: ${break} minutes",
-                    "horizontalAlignment": "center",
-                    "size": "small"
-                },
-                {
+              {
+                "type": "Container",
+                "style": "accent",
+                "items": [
+                  {
+                      "type": "TextBlock",
+                      "text": "${id}",
+                      "horizontalAlignment": "center",
+                      "size": "small",
+                      "isSubtle": true
+                  },
+                  {
+                      "type": "TextBlock",
+                      "text": "${date}",
+                      "horizontalAlignment": "center",
+                      "size": "medium",
+                      "spacing": "none"
+                  },
+                  {
+                      "type": "ColumnSet",
+                      "columns": [
+                          {
+                              "type": "Column",
+                              "items": [
+                                  {
+                                      "type": "TextBlock",
+                                      "horizontalAlignment": "center",
+                                      "text": "Since",
+                                      "isSubtle": true,
+                                      "size": "small"
+                                  },
+                                  {
+                                      "type": "TextBlock",
+                                      "text": "${start_time}",
+                                      "horizontalAlignment": "center",
+                                      "spacing": "none"
+                                  }
+                              ]
+                          },
+                          {
+                              "type": "Column",
+                              "items": [
+                                  {
+                                      "type": "TextBlock",
+                                      "horizontalAlignment": "center",
+                                      "text": "To",
+                                      "isSubtle": true,
+                                      "size": "small"
+                                  },
+                                  {
+                                      "type": "TextBlock",
+                                      "text": "${end_time}",
+                                      "horizontalAlignment": "center",
+                                      "spacing": "none"
+                                  }
+                              ]
+                          }
+                      ]
+                  },
+                  {
+                      "type": "TextBlock",
+                      "text": "Break: ${break} minutes",
+                      "horizontalAlignment": "center",
+                      "size": "small"
+                  }
+                ]
+              },
+              {
+                "type": "Container",
+                "style": "accent",
+                "items": [
+                  {
                     "type": "TextBlock",
                     "text": "Project",
                     "horizontalAlignment": "center",
                     "isSubtle": true,
                     "$when": "${project_name != ''}"
-                },
-                {
+                  },
+                  {
                     "type": "TextBlock",
                     "text": "${project_name}",
                     "horizontalAlignment": "center",
                     "spacing": "none"
-                },
-                {
+                  },
+                  {
                     "type": "TextBlock",
                     "text": "Comment",
                     "horizontalAlignment": "center",
                     "isSubtle": true,
                     "$when": "${comment != ''}"
-                },
-                {
+                  },
+                  {
                     "type": "TextBlock",
                     "text": "${comment}",
                     "horizontalAlignment": "center",
                     "spacing": "none"
-                }
+                  }
+                ]
+              }
             ]
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ActionSet",
+                  "style": "destructive",
+                  "actions": [
+                    {
+                      "type": "Action.ShowCard",
+                      "title": "Delete attendance",
+                      "card": {
+                        "type": "AdaptiveCard",
+                        "version": "1.3",
+                        "body": [
+                          {
+                            "type": "ColumnSet",
+                            "columns": [
+                              {
+                                "type": "Column",
+                                "verticalContentAlignment": "center",
+                                "items": [
+                                  {
+                                    "type": "TextBlock",
+                                    "text": "Choose the ID"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "Column",
+                                "items": [
+                                  {
+                                    "type": "Input.ChoiceSet",
+                                    "id": "id",
+                                    "choices": [
+                                      {
+                                        "$data": "${attendances}",
+                                        "title": "${id}",
+                                        "value": "${id}"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "ActionSet",
+                            "actions": [
+                              {
+                                "type": "Action.Submit",
+                                "id": "deleteAttendanceButton",
+                                "title": "Confirm"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                  }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "items": [
+                {
+                  "type": "ActionSet",
+                  "actions": [
+                    {
+                      "type": "Action.Submit",
+                      "title": "Back",
+                      "id": "attendanceMenuButton"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
         }
     ]
 }
