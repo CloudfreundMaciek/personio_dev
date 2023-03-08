@@ -4,29 +4,43 @@
   "version": "1.3",
   "body": [
     {
-      "type": "TextBlock",
-      "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days.",
-      "horizontalAlignment": "center",
-      "isSubtle": true,
-      "size": "small"
-    },
-    {
       "type": "Container",
-      "$data": "${absences}",
-      "separator": true,
+      "style": "emphasis",
       "items": [
         {
           "type": "TextBlock",
-          "text": "${id}",
+          "text": "Absence overview",
           "weight": "bolder",
           "horizontalAlignment": "center"
         },
         {
           "type": "TextBlock",
-          "text": "${time_off_type_name}",
-          "isSubtle": true,
+          "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days left.",
           "horizontalAlignment": "center",
+          "isSubtle": true,
           "size": "small",
+          "spacing": "none"
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "$data": "${absences}",
+      "spacing": "medium",
+      "style": "${if(status == 'requested', 'warning', 'accent')}",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "${id}",
+          "size": "small",
+          "isSubtle": true,
+          "fontType": "monospace",
+          "horizontalAlignment": "center"
+        },
+        {
+          "type": "TextBlock",
+          "text": "${time_off_type_name}",
+          "horizontalAlignment": "center",
           "spacing": "none"
         },
         {
@@ -38,14 +52,16 @@
                 {
                   "type": "TextBlock",
                   "text": "Start",
-                  "horizontalAlignment": "center"
+                  "horizontalAlignment": "center",
+                  "color": "good"
                 },
                 {
                   "type": "TextBlock",
                   "text": "${start_date}",
                   "horizontalAlignment": "center",
                   "spacing": "small",
-                  "size": "medium"
+                  "size": "medium",
+                  "weight": "bolder"
                 }
               ]
             },
@@ -56,14 +72,16 @@
                 {
                   "type": "TextBlock",
                   "text": "End",
-                  "horizontalAlignment": "center"
+                  "horizontalAlignment": "center",
+                  "color": "attention"
                 },
                 {
                   "type": "TextBlock",
                   "text": "${end_date}",
                   "horizontalAlignment": "center",
                   "spacing": "small",
-                  "size": "medium"
+                  "size": "medium",
+                  "weight": "bolder"
                 }
               ]
             }
@@ -85,63 +103,88 @@
       ]
     },
     {
-      "type": "ActionSet",
-      "actions": [
+      "type": "ColumnSet",
+      "columns": [
         {
-          "type": "Action.ShowCard",
-          "title": "Cancel time off",
-          "card": {
-            "type": "AdaptiveCard",
-            "version": "1.3",
-            "body": [
-              {
-                "type": "ColumnSet",
-                "columns": [
-                  {
-                    "type": "Column",
-                    "verticalContentAlignment": "center",
-                    "items": [
+          "type": "Column",
+          "items": [
+            {
+              "type": "ActionSet",
+              "spacing": "large",
+              "actions": [
+                {
+                  "type": "Action.ShowCard",
+                  "title": "Cancel time off",
+                  "style": "destructive",
+                  "card": {
+                    "type": "AdaptiveCard",
+                    "version": "1.3",
+                    "body": [
                       {
-                        "type": "TextBlock",
-                        "text": "Choose the ID"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "Column",
-                    "items": [
-                      {
-                        "type": "Input.ChoiceSet",
-                        "id": "id",
-                        "choices": [
+                        "type": "ColumnSet",
+                        "columns": [
                           {
-                            "$data": "${absences}",
-                            "title": "${id}",
-                            "value": "${id}"
+                            "type": "Column",
+                            "width": "auto",
+                            "verticalContentAlignment": "center",
+                            "items": [
+                              {
+                                "type": "TextBlock",
+                                "text": "Choose the ID"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "Column",
+                            "items": [
+                              {
+                                "type": "Input.ChoiceSet",
+                                "id": "id",
+                                "choices": [
+                                  {
+                                    "$data": "${absences}",
+                                    "title": "${id}",
+                                    "value": "${id}"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "ActionSet",
+                        "actions": [
+                          {
+                            "type": "Action.Submit",
+                            "id": "callOffAbsenceButton",
+                            "style": "destructive",
+                            "title": "Confirm"
                           }
                         ]
                       }
                     ]
                   }
-                ]
-              },
-              {
-                "type": "ActionSet",
-                "actions": [
-                  {
-                    "type": "Action.Submit",
-                    "id": "callOffAbsenceButton",
-                    "title": "Confirm"
-                  }
-                ]
-              }
-            ]
-          }
+                }
+              ]
+            }
+          ]
         },
         {
-          "type": "Action.Submit",
-          "id": "absenceMenuButton",
-          "title": "Back"
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "ActionSet",
+              "actions": [
+                {
+                  "type": "Action.Submit",
+                  "id": "absenceMenuButton",
+                  "title": "Back"
+                }
+              ]
+            }
+          ]
         }
       ]
     }

@@ -6,21 +6,15 @@
     {
       "type": "Container",
       "style": "emphasis",
+      "height": "auto",
       "items": [
-        {
-          "type": "TextBlock",
-          "text": "Absence overview",
-          "weight": "bolder",
-          "horizontalAlignment": "center"
-        },
-        {
-          "type": "TextBlock",
-          "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days left.",
-          "horizontalAlignment": "center",
-          "isSubtle": true,
-          "size": "small",
-          "spacing": "none"
-        }
+          {
+              "type": "TextBlock",
+              "text": "Project overview",
+              "horizontalAlignment": "center",
+              "weight": "bolder",
+              "height": "auto"
+          }
       ]
     },
     {
@@ -29,7 +23,7 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "You haven't planned any times off yet..."
+          "text": "There is no project to work on..."
         }
       ]
     },
@@ -44,8 +38,8 @@
               "actions": [
                 {
                   "type": "Action.Submit",
-                  "id": "absenceFormMenuButton",
-                  "title": "Submit new absence",
+                  "id": "createProjectButton",
+                  "title": "Create a project",
                   "style": "positive"
                 }
               ]
@@ -61,7 +55,7 @@
               "actions": [
                 {
                   "type": "Action.Submit",
-                  "id": "absenceMenuButton",
+                  "id": "projectMenuButton",
                   "title": "Back"
                 }
               ]

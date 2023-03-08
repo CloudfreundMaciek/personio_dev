@@ -29,7 +29,16 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       absence.end_date = absence.end_date.slice(0, 10);
       absence.id = absence.id.toString();
     }
-
+    const sortedAbsences = new Array<IAbsence>();
+    for (const absence of absences) {
+      if (absence.status === 'requested') sortedAbsences.push(absence);
+      else continue;
+    }
+    for (const absence of absences) {
+      if (absence.status === 'approved') sortedAbsences.push(absence);
+      else continue;
+    }
+    
     let projects = new Array<IProject>();
     if (this.state.quickViewStage === 'projectOverview') {
       for (const project of this.state.projects) {
@@ -56,40 +65,6 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       stage: this.state.quickViewStage,
       icons: icons
     };
-  }
-
-  private createAbsence(data: IAbsence): void {
-    const options: ISPHttpClientOptions = {
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        target: 'createAbsence',
-        data,
-        email: this.context.pageContext.user.email
-      })
-    };
-    this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
-    .then(response => response.json())
-    .then(async response => {
-      if (response.success === true) {
-        const absences = this.state.absences;
-        data.id = response.data.attributes.id;
-        data.status = response.data.attributes.status
-        for (const type of this.state.timeOffTypes) {
-          if (+type.id === data.time_off_type_id) data.time_off_type_name = type.name;
-        }
-        absences.push(data);
-
-        const absenceCount = await this.getAbsenceCount();
-        this.setState({absences: absences, message: "Your request has been successfuly delivered.", quickViewStage: 'response', absenceCount: absenceCount.current});
-      } 
-      else {
-        this.setState({message: response.error.message, quickViewStage: response});
-      }
-    });
   }
   
   private createProject(data: IProject): void {
@@ -217,6 +192,39 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
     });
   }
 
+  private createAbsence(data: IAbsence): void {
+    const options: ISPHttpClientOptions = {
+      method: 'POST',
+      headers: {
+        'accept': 'application/json',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        target: 'createAbsence',
+        data,
+        email: this.context.pageContext.user.email
+      })
+    };
+    this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    .then(response => response.json())
+    .then(async response => {
+      if (response.success === true) {
+        data.id = response.data.attributes.id;
+        data.status = response.data.attributes.status
+        for (const type of this.state.timeOffTypes) {
+          if (+type.id === data.time_off_type_id) data.time_off_type_name = type.name;
+        }
+
+        const absences = Array<IAbsence>().concat(data, this.state.absences);
+        const absenceCount = await this.getAbsenceCount();
+        const status = (response.data.attributes.status === 'requested') ? "Your request has been successfuly delivered." : "Your request has been approved!";
+        this.setState({absences: absences, message: status, quickViewStage: 'response', absenceCount: absenceCount.current});
+      } else {
+        this.setState({message: response.error.message, quickViewStage: 'response'});
+      }
+    });
+  }
+
   public deleteAbsence(data: any): void {
     const options: ISPHttpClientOptions = {
       method: 'POST',
@@ -302,7 +310,8 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         return require('./template/project_form.json');
           
       case 'projectOverview':
-        return require('./template/project_overview.json');
+        if (this.state.projects.length !== 1) return require('./template/project_overview.json');
+        else return require('./template/project_empty.json');
   
       case 'menu':
         return require('./template/menu.json');

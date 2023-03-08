@@ -168,7 +168,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         for (const absence of res.data) {
           const attributes = absence.attributes;
           absences.push({
-            id: String(attributes.id),
+            id: attributes.id,
             time_off_type_id: attributes.time_off_type.attributes.id,
             time_off_type_name: attributes.time_off_type.attributes.name,
             start_date: attributes.start_date,
@@ -308,12 +308,14 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       .then(res => res.json())
       .then(res => {
         if (res.success === true) {
-          for (const project of res.data) {            
-            projects.push({
-              name: project.attributes.name,
-              id: project.id.toString(),
-              active: project.attributes.active
-            });
+          for (const project of res.data) {   
+            if (project.attributes.active === true) {
+              projects.push({
+                name: project.attributes.name,
+                id: project.id.toString(),
+                active: project.attributes.active
+              });
+            }         
           }
           return projects;
         } else {

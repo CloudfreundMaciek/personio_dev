@@ -142,7 +142,6 @@
                     "items": [
                         {
                             "type": "ActionSet",
-                            "spacing": "large",
                             "actions": [
                                 {
                                       "type": "Action.Submit",
@@ -156,10 +155,10 @@
                 },
                 {
                     "type": "Column",
+                    "width": "auto",
                     "items": [
                         {
                             "type": "ActionSet",
-                            "spacing": "large",
                             "actions": [
                                 {
                                       "type": "Action.Submit",
@@ -172,6 +171,5 @@
                 }
             ]
         }
-    
     ]
 }

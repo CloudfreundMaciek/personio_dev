@@ -3,14 +3,33 @@
     "version": "1.3",
     "body": [
         {
+            "type": "Container",
+            "style": "emphasis",
+            "height": "auto",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Project form",
+                    "horizontalAlignment": "center",
+                    "weight": "bolder",
+                    "height": "auto"
+                }
+            ]
+        },
+        {
             "type": "ColumnSet",
             "columns": [
                 {
                     "type": "Column",
                     "items": [
                         {
+                            "type": "TextBlock",
+                            "text": "Title",
+                            "weight": "bolder"
+                        },
+                        {
                             "type": "Input.Text",
-                            "label": "Title",
+                            "spacing": "none",
                             "id": "name"
                         }
                     ]
@@ -18,20 +37,39 @@
             ]
         },
         {
-            "type": "ActionSet",
-            "actions": [
+            "type": "ColumnSet",
+            "columns": [
                 {
-                    "type": "Action.Submit",
-                    "id": "createProjectButton",
-                    "title": "Create a project",
-                    "data": {
-                        "active": true
-                    }
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                      "type": "Action.Submit",
+                                      "title": "Create a project",
+                                      "id": "createProjectButton",
+                                      "style": "positive"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
-                    "type": "Action.Submit",
-                    "id": "projectMenuButton",
-                    "title": "Back"
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                      "type": "Action.Submit",
+                                      "id": "projectMenuButton",
+                                      "title": "Back"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         }
