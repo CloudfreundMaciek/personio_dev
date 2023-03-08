@@ -28,7 +28,8 @@
         {
             "$data": "${attendances}",
             "type": "Container",
-            "separator": true,
+            "spacing": "medium",
+            "style": "emphasis",
             "items": [
               {
                 "type": "Container",
@@ -39,14 +40,17 @@
                       "text": "${id}",
                       "horizontalAlignment": "center",
                       "size": "small",
-                      "isSubtle": true
+                      "isSubtle": true,
+                      "fontType": "monospace"
                   },
                   {
                       "type": "TextBlock",
                       "text": "${date}",
                       "horizontalAlignment": "center",
                       "size": "medium",
-                      "spacing": "none"
+                      "spacing": "none",
+                      "weight": "bolder",
+                      "color": "accent"
                   },
                   {
                       "type": "ColumnSet",
@@ -65,7 +69,8 @@
                                       "type": "TextBlock",
                                       "text": "${start_time}",
                                       "horizontalAlignment": "center",
-                                      "spacing": "none"
+                                      "spacing": "none",
+                                      "weight": "bolder"
                                   }
                               ]
                           },
@@ -83,7 +88,8 @@
                                       "type": "TextBlock",
                                       "text": "${end_time}",
                                       "horizontalAlignment": "center",
-                                      "spacing": "none"
+                                      "spacing": "none",
+                                      "weight": "bolder"
                                   }
                               ]
                           }
@@ -100,32 +106,44 @@
               {
                 "type": "Container",
                 "style": "accent",
+                "$when": "${project_name != '' || comment != ''}",
                 "items": [
                   {
-                    "type": "TextBlock",
-                    "text": "Project",
-                    "horizontalAlignment": "center",
-                    "isSubtle": true,
-                    "$when": "${project_name != ''}"
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "${project_name}",
-                    "horizontalAlignment": "center",
-                    "spacing": "none"
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "Comment",
-                    "horizontalAlignment": "center",
-                    "isSubtle": true,
-                    "$when": "${comment != ''}"
-                  },
-                  {
-                    "type": "TextBlock",
-                    "text": "${comment}",
-                    "horizontalAlignment": "center",
-                    "spacing": "none"
+                    "type": "ColumnSet",
+                    "columns": [
+                      {
+                        "type": "Column",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "Project",
+                            "isSubtle": true,
+                            "$when": "${project_name != ''}"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "Comment",
+                            "isSubtle": true,
+                            "$when": "${comment != ''}"
+                          }                          
+                        ]
+                      },
+                      {
+                        "type": "Column",
+                        "items": [
+                          {
+                            "type": "TextBlock",
+                            "text": "${project_name}",
+                            "horizontalAlignment": "right"
+                          },
+                          {
+                            "type": "TextBlock",
+                            "text": "${comment}",
+                            "horizontalAlignment": "right"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -153,6 +171,7 @@
                             "columns": [
                               {
                                 "type": "Column",
+                                "width": "auto",
                                 "verticalContentAlignment": "center",
                                 "items": [
                                   {
@@ -198,6 +217,7 @@
             },
             {
               "type": "Column",
+              "width": "auto",
               "items": [
                 {
                   "type": "ActionSet",

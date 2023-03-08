@@ -19,13 +19,64 @@
         },
         {
             "type": "Container",
-            "style": "accent",
+            "style": "warning",
             "items": [
                 {
-                    "type": "Input.Date",
-                    "label": "Day",
-                    "value": "${dates.today_date}",
-                    "id": "day"
+                    "type": "TextBlock",
+                    "text": "Required",
+                    "isSubtle": true,
+                    "size": "small"
+                },
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Date",
+                                    "weight": "bolder"
+                                },
+                                {
+                                    "type": "Input.Date",
+                                    "value": "${dates.today_date}",
+                                    "id": "day",
+                                    "spacing": "none"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "Start",
+                                    "weight": "bolder"
+                                },
+                                {
+                                    "type": "Input.Time",
+                                    "id": "start",
+                                    "spacing": "none"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Column",
+                            "items": [
+                                {
+                                    "type": "TextBlock",
+                                    "text": "End",
+                                    "weight": "bolder"
+                                },
+                                {
+                                    "type": "Input.Time",
+                                    "id": "end",
+                                    "spacing": "none"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -37,27 +88,8 @@
                     "type": "ColumnSet",
                     "columns": [
                         {
-                            "type": "Column",
-                            "items": [
-                                {
-                                    "type": "Input.Time",
-                                    "label": "Start",
-                                    "id": "start"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "Column",
-                            "items": [
-                                {
-                                    "type": "Input.Time",
-                                    "label": "End",
-                                    "id": "end"
-                                }
-                            ]
-                        },
-                        {
                           "type": "Column",
+                          "width": "1",
                           "items": [
                             {
                                 "type": "Input.Number",
@@ -66,26 +98,26 @@
                                 "value": 0
                             }
                           ]
+                        },
+                        {
+                          "type": "Column",
+                          "width": "2",
+                          "items": [
+                            {
+                                "type": "Input.ChoiceSet",
+                                "label": "Project",
+                                "id": "project",
+                                "choices": [
+                                    {
+                                        "$data": "${projects}",
+                                        "$when": "${active == true}",
+                                        "title": "${name}",
+                                        "value": "${id}"
+                                    }
+                                  ]
+                                }
+                            ]
                         }
-                    ]
-                }
-            ]
-        },
-        {
-            "type": "Container",
-            "style": "accent",
-            "items": [
-                {
-                    "type": "Input.ChoiceSet",
-                    "label": "Project",
-                    "id": "project",
-                    "choices": [
-                      {
-                        "$data": "${projects}",
-                        "$when": "${active == true}",
-                        "title": "${name}",
-                        "value": "${id}"
-                      }
                     ]
                 }
             ]

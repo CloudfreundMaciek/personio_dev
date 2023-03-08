@@ -1,17 +1,57 @@
 {
     "type": "AdaptiveCard",
     "version": "1.3",
+    "body": [
+        {
+            "type": "Container",
+            "style": "emphasis",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Absence",
+                    "horizontalAlignment": "center",
+                    "weight": "bolder",
+                    "size": "medium"
+                }
+            ]
+        },
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "id": "absenceFormMenuButton",
+                                    "title": "Form"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "items": [
+                        {
+                            "type": "ActionSet",
+                            "actions": [
+                                {
+                                    "type": "Action.Submit",
+                                    "id": "absenceOverviewMenuButton",
+                                    "title": "Overview"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
     "actions": [
-        {
-            "type": "Action.Submit",
-            "id": "absenceFormMenuButton",
-            "title": "Absence form"
-        },
-        {
-            "type": "Action.Submit",
-            "id": "absenceOverviewMenuButton",
-            "title": "Absence overview"
-        },
         {
             "type": "Action.Submit",
             "id": "back",

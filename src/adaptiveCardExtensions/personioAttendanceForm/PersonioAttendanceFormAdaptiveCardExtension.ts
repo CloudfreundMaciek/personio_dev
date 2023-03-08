@@ -115,7 +115,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     if (month < 10) {
       month = '0'+month;
     }
-    let day: number | string = nowDate.getDate()+1;
+    let day: number | string = nowDate.getDate();
     if (day < 10) {
       day = '0'+day;
     } else if (+month === 2 && day > 28) {
@@ -127,14 +127,14 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
     month = +month;
     day = +day;
 
-    if ((day - 8) <= 0) {
-      day = 30 - (8-day);
+    if ((day - 7) <= 0) {
+      day = 30 - (7-day);
       month--;
       if (month === 0) {
         month = 12;
         year--;
       }
-    } else day -= 8;
+    } else day -= 7;
 
     if (day < 10) {
       day = '0'+day;

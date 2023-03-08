@@ -3,23 +3,107 @@
     "version": "1.3",
     "body": [
       {
-        "type": "TextBlock",
-        "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days.",
-        "horizontalAlignment": "center",
-        "isSubtle": true,
-        "size": "small"
+        "type": "Container",
+        "style": "emphasis",
+        "items": [
+          {
+            "type": "TextBlock",
+            "text": "Absence form",
+            "weight": "bolder",
+            "horizontalAlignment": "center"
+          }
+        ]
       },
       {
-        "type": "Input.ChoiceSet",
-        "label": "Absence's purpose",
-        "id": "time_off_type_id",
-        "seperator": true,
-        "isRequired": true,
-        "choices": [
+        "type": "Container",
+        "style": "warning",
+        "items": [
           {
-            "$data": "${timeOffTypes}",
-            "title": "${name}",
-            "value": "${id}"
+            "type": "TextBlock",
+            "text": "Required",
+            "isSubtle": true,
+            "size": "small"
+          },
+          {
+            "type": "TextBlock",
+            "text": "Absence's purpose",
+            "weight": "bolder"
+          },
+          {
+            "type": "Input.ChoiceSet",
+            "id": "time_off_type_id",
+            "spacing": "none",
+            "seperator": true,
+            "choices": [
+              {
+                "$data": "${timeOffTypes}",
+                "title": "${name}",
+                "value": "${id}"
+              }
+            ]
+          },
+          {
+            "type": "ColumnSet",
+            "columns": [
+              {
+                "type": "Column",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "Start",
+                    "weight": "bolder"
+                  },
+                  {
+                    "type": "Input.Date",
+                    "spacing": "none",
+                    "id": "start_date"
+                  },
+                  {
+                    "type": "Input.Toggle",
+                    "label": "Half-day start",
+                    "id": "half_day_start"
+                  }
+                ]
+              },
+              {
+                "type": "Column",
+                "items": [
+                  {
+                    "type": "TextBlock",
+                    "text": "End",
+                    "weight": "bolder"
+                  },
+                  {
+                    "type": "Input.Date",
+                    "spacing": "none",
+                    "id": "end_date"
+                  },
+                  {
+                    "type": "Input.Toggle",
+                    "label": "Half-day end",
+                    "id": "half_day_end"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "TextBlock",
+            "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days.",
+            "horizontalAlignment": "center",
+            "isSubtle": true,
+            "size": "small"
+          }
+        ]
+      },
+      {
+        "type": "Container",
+        "style": "accent",
+        "items": [
+          {
+            "type": "Input.Text",
+            "label": "Comment",
+            "id": "comment"
           }
         ]
       },
@@ -30,53 +114,33 @@
             "type": "Column",
             "items": [
               {
-                "type": "Input.Date",
-                "isRequired": true,
-                "label": "Start",
-                "id": "start_date"
-              },
-              {
-                "type": "Input.Toggle",
-                "label": "Half-day start",
-                "id": "half_day_start"
+                "type": "ActionSet",
+                "spacing": "large",
+                "actions": [
+                  {
+                    "type": "Action.Submit",
+                    "title": "Submit time-off",
+                    "id": "takeTimeOffButton"
+                  }
+                ]
               }
             ]
           },
           {
             "type": "Column",
+            "width": "auto",
             "items": [
               {
-                "type": "Input.Date",
-                "label": "End",
-                "id": "end_date"
-              },
-              {
-                "type": "Input.Toggle",
-                "label": "Half-day end",
-                "id": "half_day_end"
+                "type": "ActionSet",
+                "actions": [
+                  {
+                    "type": "Action.Submit",
+                    "id": "absenceMenuButton",
+                    "title": "Back"
+                  }
+                ]
               }
             ]
-          }
-        ]
-      },
-      {
-        "type": "Input.Text",
-        "label": "Comment",
-        "id": "comment"
-      },
-      {
-        "type": "ActionSet",
-        "spacing": "large",
-        "actions": [
-          {
-            "type": "Action.Submit",
-            "title": "Submit time-off",
-            "id": "takeTimeOffButton"
-          },
-          {
-            "type": "Action.Submit",
-            "id": "absenceMenuButton",
-            "title": "Back"
           }
         ]
       }
