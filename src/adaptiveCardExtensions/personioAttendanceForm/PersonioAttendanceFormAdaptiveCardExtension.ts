@@ -6,7 +6,6 @@ import { ISPHttpClientOptions, AadHttpClient } from '@microsoft/sp-http';
 import { QuickViewPersonio } from './quickView/QuickViewAttendance';
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
-  title: string;
 }
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
@@ -292,7 +291,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
 
   public async getProjects(): Promise<Array<IProject>|null> {
     const projects = new Array<IProject>();
-    projects.push({name: '---', id: null, active: false});
+    projects.push({name: '---', id: null, active: true});
     const options: ISPHttpClientOptions = {
       method: 'POST',
       headers: {

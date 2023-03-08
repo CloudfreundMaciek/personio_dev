@@ -17,17 +17,24 @@
         ]
       },
         {
-            "type": "Container",
+            "type": "ColumnSet",
             "$data": "${projects}",
-            "$when": "${active == true}",
             "separator": true,
-            "items": [
-                {
-                    "type": "TextBlock",
-                    "text": "${name}",
-                    "size": "medium",
-                    "horizontalAlignment": "center"
-                }
+            "horizontalAlignment": "center",
+            "columns": [
+              {
+                "type": "Column",
+                "width": "auto",
+                "style": "accent",
+                "items": [
+                  {
+                      "type": "TextBlock",
+                      "text": "${name}",
+                      "size": "medium",
+                      "horizontalAlignment": "center"
+                  }
+                ]
+              }
             ]
         },
         {

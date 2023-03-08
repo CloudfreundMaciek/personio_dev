@@ -3,10 +3,10 @@ declare interface IPersonioAttendanceFormAdaptiveCardExtensionStrings {
   TitleFieldLabel: string;
   Title: string;
   SubTitle: string;
-  PrimaryText: string;
+  CardViewMain: string;
+  CardViewLoading: string;
   Description: string;
-  QuickViewAttendanceButton: string;
-  QuickViewHolidaysButton: string;
+  QuickViewButton: string;
 }
 
 declare module 'PersonioAttendanceFormAdaptiveCardExtensionStrings' {

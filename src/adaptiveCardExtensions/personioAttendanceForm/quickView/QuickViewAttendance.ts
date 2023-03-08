@@ -155,7 +155,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
 
         const attendances = this.state.attendances;
         attendances.push(data);
-        this.setState({message: res.data.message, quickViewStage: 'response', attendances: sortAttendances(attendances)});
+        this.setState({message: "The attendance has been successfully saved!", quickViewStage: 'response', attendances: sortAttendances(attendances)});
       } else {
         this.setState({message: res.error.message, quickViewStage: 'response'});
       }

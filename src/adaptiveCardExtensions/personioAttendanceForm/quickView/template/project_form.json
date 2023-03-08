@@ -49,7 +49,10 @@
                                       "type": "Action.Submit",
                                       "title": "Create a project",
                                       "id": "createProjectButton",
-                                      "style": "positive"
+                                      "style": "positive",
+                                      "data": {
+                                        "active": true
+                                      }
                                 }
                             ]
                         }
