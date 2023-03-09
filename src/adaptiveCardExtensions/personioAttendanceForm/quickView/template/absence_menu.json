@@ -8,7 +8,7 @@
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "Absence",
+                    "text": "${strings.Absence.Menu.Header}",
                     "horizontalAlignment": "center",
                     "weight": "bolder",
                     "size": "medium"
@@ -26,8 +26,9 @@
                             "actions": [
                                 {
                                     "type": "Action.Submit",
+                                    "style": "positive",
                                     "id": "absenceFormMenuButton",
-                                    "title": "Form"
+                                    "title": "${strings.Absence.Menu.Buttons.Form}"
                                 }
                             ]
                         }
@@ -41,8 +42,9 @@
                             "actions": [
                                 {
                                     "type": "Action.Submit",
+                                    "style": "positive",
                                     "id": "absenceOverviewMenuButton",
-                                    "title": "Overview"
+                                    "title": "${strings.Absence.Menu.Buttons.Overview}"
                                 }
                             ]
                         }
@@ -55,7 +57,7 @@
         {
             "type": "Action.Submit",
             "id": "back",
-            "title": "Back"
+            "title": "${strings.Absence.Menu.Buttons.Back}"
         }
     ]
 }

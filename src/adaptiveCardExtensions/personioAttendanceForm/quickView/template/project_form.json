@@ -67,7 +67,7 @@
                             "actions": [
                                 {
                                       "type": "Action.Submit",
-                                      "id": "projectMenuButton",
+                                      "id": "projectsMenuButton",
                                       "title": "Back"
                                 }
                             ]

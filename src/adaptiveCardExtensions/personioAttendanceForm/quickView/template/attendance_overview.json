@@ -9,14 +9,14 @@
           "items": [
             {
               "type": "TextBlock",
-              "text": "Attendance overview",
+              "text": "${strings.Attendance.Overview.Header}",
               "horizontalAlignment": "center",
               "weight": "bolder",
               "height": "auto"
             },
             {
               "type": "TextBlock",
-              "text": "Since ${dates.week_ago_date} till now",
+              "text": "${strings.Attendance.Overview.TimePeriod[0]} ${dates.week_ago_date} ${strings.Attendance.Overview.TimePeriod[1]}",
               "horizontalAlignment": "center",
               "wrap": true,
               "spacing": "none",
@@ -60,7 +60,7 @@
                                   {
                                       "type": "TextBlock",
                                       "horizontalAlignment": "center",
-                                      "text": "Since",
+                                      "text": "${$root.strings.Attendance.Overview.Attendance.Since}",
                                       "isSubtle": true,
                                       "size": "small"
                                   },
@@ -79,7 +79,7 @@
                                   {
                                       "type": "TextBlock",
                                       "horizontalAlignment": "center",
-                                      "text": "To",
+                                      "text": "${$root.strings.Attendance.Overview.Attendance.To}",
                                       "isSubtle": true,
                                       "size": "small"
                                   },
@@ -96,7 +96,7 @@
                   },
                   {
                       "type": "TextBlock",
-                      "text": "Break: ${break} minutes",
+                      "text": "${$root.strings.Attendance.Overview.Attendance.Break[0]} ${break} ${$root.strings.Attendance.Overview.Attendance.Break[1]}",
                       "horizontalAlignment": "center",
                       "size": "small"
                   }
@@ -115,13 +115,13 @@
                         "items": [
                           {
                             "type": "TextBlock",
-                            "text": "Project",
+                            "text": "${$root.strings.Attendance.Overview.Attendance.Project}",
                             "isSubtle": true,
                             "$when": "${project_name != ''}"
                           },
                           {
                             "type": "TextBlock",
-                            "text": "Comment",
+                            "text": "${$root.strings.Attendance.Overview.Attendance.Comment}",
                             "isSubtle": true,
                             "$when": "${comment != ''}"
                           }                          
@@ -160,7 +160,7 @@
                     {
                       "type": "Action.ShowCard",
                       "style": "destructive",
-                      "title": "Delete attendance",
+                      "title": "${strings.Attendance.Overview.Buttons.Delete.Title}",
                       "card": {
                         "type": "AdaptiveCard",
                         "version": "1.3",
@@ -175,7 +175,7 @@
                                 "items": [
                                   {
                                     "type": "TextBlock",
-                                    "text": "Choose the ID"
+                                    "text": "${strings.Attendance.Overview.Buttons.Delete.Card.Choice}"
                                   }
                                 ]
                               },
@@ -203,7 +203,7 @@
                               {
                                 "type": "Action.Submit",
                                 "id": "deleteAttendanceButton",
-                                "title": "Confirm"
+                                "title": "${strings.Attendance.Overview.Buttons.Delete.Card.Button}"
                               }
                             ]
                           }
@@ -223,7 +223,7 @@
                   "actions": [
                     {
                       "type": "Action.Submit",
-                      "title": "Back",
+                      "title": "${strings.Attendance.Overview.Buttons.Back}",
                       "id": "attendanceMenuButton"
                     }
                   ]

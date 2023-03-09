@@ -29,7 +29,7 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "You haven't planned any times off yet..."
+          "text": "${strings.Absence.Overview.Empty.Message}"
         }
       ]
     },
@@ -45,7 +45,7 @@
                 {
                   "type": "Action.Submit",
                   "id": "absenceFormMenuButton",
-                  "title": "Submit new absence",
+                  "title": "${strings.Absence.Overview.Empty.Submit}",
                   "style": "positive"
                 }
               ]
@@ -62,7 +62,7 @@
                 {
                   "type": "Action.Submit",
                   "id": "absenceMenuButton",
-                  "title": "Back"
+                  "title": "${strings.Absence.Overview.Buttons.Back}"
                 }
               ]
             }

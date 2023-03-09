@@ -1,6 +1,6 @@
 import { ISPFxAdaptiveCard, BaseAdaptiveCardView, IActionArguments } from '@microsoft/sp-adaptive-card-extension-base';
 import { AadHttpClient, ISPHttpClientOptions } from '@microsoft/sp-http';
-//import * as strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
+import strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
 import { IAbsence, IPersonioAttendanceFormAdaptiveCardExtensionProps, IPersonioAttendanceFormAdaptiveCardExtensionState, IProject, ITimeOffType, IAttendance, IDatesPack, sortAttendances } from '../PersonioAttendanceFormAdaptiveCardExtension';
 
 export interface IQuickViewAttendanceData {
@@ -14,6 +14,7 @@ export interface IQuickViewAttendanceData {
   dates: IDatesPack;
   stage: string;
   icons: any;
+  strings: any;
 }
 
 export class QuickViewPersonio extends BaseAdaptiveCardView<
@@ -40,7 +41,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
     }
     
     let projects = new Array<IProject>();
-    if (this.state.quickViewStage === 'projectOverview') {
+    if (this.state.quickViewStage === 'projectsOverview') {
       for (const project of this.state.projects) {
         if (project.name === '---') continue;
         else projects.push(project);
@@ -63,7 +64,8 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       attendances: this.state.attendances,
       dates: this.state.dates,
       stage: this.state.quickViewStage,
-      icons: icons
+      icons: icons,
+      strings: strings.QuickView
     };
   }
   
@@ -88,7 +90,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         data.id = response.data.id.toString();
         projects.push(data);
 
-        this.setState({message: "The project has been successfuly created!", quickViewStage: 'response', projects: projects});
+        this.setState({message: strings.QuickView.Response.Successful.ProjectCreated, quickViewStage: 'response', projects: projects});
       } 
       else {
         this.setState({message: response.error.message, quickViewStage: 'response'});
@@ -115,14 +117,13 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       if (response?.success === false) {
         this.setState({message: response.error.message, quickViewStage: 'response'});
       } else {
-        const projects = this.state.projects;
-        for (const project of projects) {
-          if (project.id === data.id) {
-            project.active = false;
-            break;
+        const projects = new Array<IProject>();
+        for (const project of this.state.projects) {
+          if (project.id !== data.id) {
+            projects.push(project);
           }
         }
-        this.setState({message: "The project has been successfuly finished!", quickViewStage: 'response', projects: projects});
+        this.setState({message: strings.QuickView.Response.Successful.ProjectFinished, quickViewStage: 'response', projects: projects});
       }
     });
   }
@@ -155,7 +156,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
 
         const attendances = this.state.attendances;
         attendances.push(data);
-        this.setState({message: "The attendance has been successfully saved!", quickViewStage: 'response', attendances: sortAttendances(attendances)});
+        this.setState({message: strings.QuickView.Response.Successful.AttendanceSaved, quickViewStage: 'response', attendances: sortAttendances(attendances)});
       } else {
         this.setState({message: res.error.message, quickViewStage: 'response'});
       }
@@ -217,7 +218,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
 
         const absences = Array<IAbsence>().concat(data, this.state.absences);
         const absenceCount = await this.getAbsenceCount();
-        const status = (response.data.attributes.status === 'requested') ? "Your request has been successfuly delivered." : "Your request has been approved!";
+        const status = (response.data.attributes.status === 'requested') ? strings.QuickView.Response.Successful.AbsenceRequested : strings.QuickView.Response.Successful.AbsenceApproved;
         this.setState({absences: absences, message: status, quickViewStage: 'response', absenceCount: absenceCount.current});
       } else {
         this.setState({message: response.error.message, quickViewStage: 'response'});
@@ -289,8 +290,8 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       case 'absenceMenu':
         return require('./template/absence_menu.json');
 
-      case 'projectMenu':
-        return require('./template/project_menu.json');
+      case 'projectsMenu':
+        return require('./template/projects_menu.json');
     
       case 'attendanceForm':
         return require('./template/attendance_form.json');
@@ -309,9 +310,9 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       case 'projectForm':
         return require('./template/project_form.json');
           
-      case 'projectOverview':
-        if (this.state.projects.length !== 1) return require('./template/project_overview.json');
-        else return require('./template/project_empty.json');
+      case 'projectsOverview':
+        if (this.state.projects.length !== 1) return require('./template/projects_overview.json');
+        else return require('./template/projects_empty.json');
   
       case 'menu':
         return require('./template/menu.json');
@@ -371,8 +372,8 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       else if (action.id === 'absenceMenuButton') {
         this.setState({quickViewStage: 'absenceMenu'});
       }
-      else if (action.id === 'projectMenuButton') {
-        this.setState({quickViewStage: 'projectMenu'});
+      else if (action.id === 'projectsMenuButton') {
+        this.setState({quickViewStage: 'projectsMenu'});
       }
       else if (action.id === 'attendanceFormMenuButton') {
         this.setState({quickViewStage: 'attendanceForm'});
@@ -389,8 +390,8 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       else if (action.id === 'projectFormMenuButton') {
         this.setState({quickViewStage: 'projectForm'});
       }
-      else if (action.id === 'projectOverviewMenuButton') {
-        this.setState({quickViewStage: 'projectOverview'});
+      else if (action.id === 'projectsOverviewMenuButton') {
+        this.setState({quickViewStage: 'projectsOverview'});
       }
       else if (action.id === 'takeTimeOffButton') {
         if (!action.data.start_date || !action.data.end_date || !action.data.time_off_type_id) {

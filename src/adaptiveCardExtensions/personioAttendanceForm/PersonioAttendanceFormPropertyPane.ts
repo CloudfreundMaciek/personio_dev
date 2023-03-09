@@ -1,4 +1,4 @@
-import { IPropertyPaneConfiguration, PropertyPaneTextField } from '@microsoft/sp-property-pane';
+import { IPropertyPaneConfiguration } from '@microsoft/sp-property-pane';
 import * as strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
 
 export class PersonioAttendanceFormPropertyPane {
@@ -10,9 +10,7 @@ export class PersonioAttendanceFormPropertyPane {
           groups: [
             {
               groupFields: [
-                PropertyPaneTextField('title', {
-                  label: strings.TitleFieldLabel
-                })
+                
               ]
             }
           ]

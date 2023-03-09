@@ -10,7 +10,7 @@
       "items": [
           {
               "type": "TextBlock",
-              "text": "Project overview",
+              "text": "${strings.Projects.Overview.Header}",
               "horizontalAlignment": "center",
               "weight": "bolder",
               "height": "auto"
@@ -23,7 +23,7 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "There is no project to work on..."
+          "text": "${strings.Projects.Overview.Empty.Message}"
         }
       ]
     },
@@ -38,8 +38,8 @@
               "actions": [
                 {
                   "type": "Action.Submit",
-                  "id": "createProjectButton",
-                  "title": "Create a project",
+                  "id": "projectFormMenuButton",
+                  "title": "${strings.Projects.Overview.Empty.Create}",
                   "style": "positive"
                 }
               ]
@@ -55,8 +55,8 @@
               "actions": [
                 {
                   "type": "Action.Submit",
-                  "id": "projectMenuButton",
-                  "title": "Back"
+                  "id": "projectsMenuButton",
+                  "title": "${strings.Projects.Overview.Buttons.Back}"
                 }
               ]
             }

@@ -8,13 +8,13 @@
         "items": [
           {
             "type": "TextBlock",
-            "text": "Absence form",
+            "text": "${strings.Absence.Form.Header}",
             "weight": "bolder",
             "horizontalAlignment": "center"
           },
           {
             "type": "TextBlock",
-            "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days.",
+            "text": "${strings.Absence.Form.LeftDays[0]} ${absenceCount}/${absenceLimit} ${strings.Absence.Form.LeftDays[1]}",
             "horizontalAlignment": "center",
             "isSubtle": true,
             "size": "small"
@@ -27,13 +27,13 @@
         "items": [
           {
             "type": "TextBlock",
-            "text": "Required",
+            "text": "${strings.Absence.Form.Required}",
             "isSubtle": true,
             "size": "small"
           },
           {
             "type": "TextBlock",
-            "text": "Absence's purpose",
+            "text": "${strings.Absence.Form.Fields.AbsenceType}",
             "weight": "bolder"
           },
           {
@@ -58,7 +58,7 @@
                 "items": [
                   {
                     "type": "TextBlock",
-                    "text": "Start",
+                    "text": "${strings.Absence.Form.Fields.Start}",
                     "weight": "bolder"
                   },
                   {
@@ -68,7 +68,7 @@
                   },
                   {
                     "type": "TextBlock",
-                    "text": "End",
+                    "text": "${strings.Absence.Form.Fields.End}",
                     "weight": "bolder"
                   },
                   {
@@ -84,7 +84,7 @@
                 "items": [
                   {
                     "type": "TextBlock",
-                    "text": "Half-day start",
+                    "text": "${strings.Absence.Form.Fields.HalfStart}",
                     "horizontalAlignment": "right"
                   },
                   {
@@ -94,7 +94,7 @@
                   },
                   {
                     "type": "TextBlock",
-                    "text": "Half-day end",
+                    "text": "${strings.Absence.Form.Fields.HalfEnd}",
                     "horizontalAlignment": "right",
                     "spacing": "medium"
                   },
@@ -115,7 +115,7 @@
         "items": [
           {
             "type": "Input.Text",
-            "label": "Comment",
+            "label": "${strings.Absence.Form.Fields.Comment}",
             "id": "comment"
           }
         ]
@@ -131,7 +131,7 @@
                 "actions": [
                   {
                     "type": "Action.Submit",
-                    "title": "Submit time-off",
+                    "title": "${strings.Absence.Form.Buttons.Submit}",
                     "id": "takeTimeOffButton",
                     "style": "positive"
                   }
@@ -148,8 +148,8 @@
                 "actions": [
                   {
                     "type": "Action.Submit",
-                    "id": "absenceMenuButton",
-                    "title": "Back"
+                    "title": "${strings.Absence.Form.Buttons.Back}",
+                    "id": "absenceMenuButton"
                   }
                 ]
               }

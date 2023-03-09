@@ -26,6 +26,7 @@
                             "actions": [
                                 {
                                     "type": "Action.Submit",
+                                    "style": "positive",
                                     "id": "projectFormMenuButton",
                                     "title": "Form"
                                 }
@@ -41,7 +42,8 @@
                             "actions": [
                                 {
                                     "type": "Action.Submit",
-                                    "id": "projectOverviewMenuButton",
+                                    "style": "positive",
+                                    "id": "projectsOverviewMenuButton",
                                     "title": "Overview"
                                 }
                             ]

@@ -17,10 +17,12 @@
     "groupId": "bd067b1e-3ad5-4d5d-a5fe-505f07d7f59c", // Dashboard
     "group": { "default": "Dashboard" },
     "title": { "default": "Personio" },
-    "description": { "default": "Enable your employees to manage their attendances, absences and projects in one place" },
+    "description": { 
+      "default": "Enable your employees to manage their attendances, absences and projects in one place", 
+      "de-DE": "Ermögliche deinen Mitarbeitern ihre Projekte, An- und Abwesenheiten verwalten an einem einzigen Ort" 
+    },
     "officeFabricIconFontName": "PageHeaderEdit",
     "properties": {
-      "title": "Personio Attendance Form"
     },
     "cardSize": "Medium"
   }]

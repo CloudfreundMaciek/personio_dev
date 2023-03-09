@@ -10,14 +10,14 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "Attendance overview",
+          "text": "${strings.Attendance.Overview.Header}",
           "horizontalAlignment": "center",
           "weight": "bolder",
           "height": "auto"
         },
         {
           "type": "TextBlock",
-          "text": "Since ${dates.week_ago_date} till now",
+          "text": "${strings.Attendance.Overview.TimePeriod[0]} ${dates.week_ago_date} ${strings.Attendance.Overview.TimePeriod[1]}",
           "horizontalAlignment": "center",
           "wrap": true,
           "spacing": "none",
@@ -31,7 +31,7 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "You haven't registered any attendances yet..."
+          "text": "${strings.Attendance.Overview.Empty.Message}"
         }
       ]
     },
@@ -47,7 +47,7 @@
                 {
                   "type": "Action.Submit",
                   "id": "attendanceFormMenuButton",
-                  "title": "Submit new attendance",
+                  "title": "${strings.Attendance.Overview.Empty.Submit}",
                   "style": "positive"
                 }
               ]

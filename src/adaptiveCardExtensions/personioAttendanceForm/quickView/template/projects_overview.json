@@ -9,7 +9,7 @@
         "items": [
             {
                 "type": "TextBlock",
-                "text": "Project overview",
+                "text": "${strings.Projects.Overview.Header}",
                 "horizontalAlignment": "center",
                 "weight": "bolder",
                 "height": "auto"
@@ -48,7 +48,7 @@
                             "actions": [
                               {
                                 "type": "Action.ShowCard",
-                                "title": "Finish project",
+                                "title": "${strings.Projects.Overview.Buttons.Finish.Title}",
                                 "style": "destructive",
                                 "card": {
                                   "type": "AdaptiveCard",
@@ -63,7 +63,7 @@
                                           "items": [
                                             {
                                               "type": "TextBlock",
-                                              "text": "Choose the project"
+                                              "text": "${strings.Projects.Overview.Buttons.Finish.Card.Choice}"
                                             }
                                           ]
                                         },
@@ -92,7 +92,7 @@
                                         {
                                           "type": "Action.Submit",
                                           "id": "metaProjectButton",
-                                          "title": "Confirm",
+                                          "title": "${strings.Projects.Overview.Buttons.Finish.Card.Confirm}",
                                           "style": "destructive"
                                         }
                                       ]
@@ -113,8 +113,8 @@
                             "actions": [
                                 {
                                       "type": "Action.Submit",
-                                      "id": "projectMenuButton",
-                                      "title": "Back"
+                                      "id": "projectsMenuButton",
+                                      "title": "${strings.Projects.Overview.Buttons.Back}"
                                 }
                             ]
                         }

@@ -10,7 +10,7 @@
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "Attendance form",
+                    "text": "${strings.Attendance.Form.Header}",
                     "horizontalAlignment": "center",
                     "weight": "bolder",
                     "height": "auto"
@@ -23,7 +23,7 @@
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "Required",
+                    "text": "${strings.Attendance.Form.Required}",
                     "isSubtle": true,
                     "size": "small"
                 },
@@ -35,7 +35,7 @@
                             "items": [
                                 {
                                     "type": "TextBlock",
-                                    "text": "Date",
+                                    "text": "${strings.Attendance.Form.Fields.Date}",
                                     "weight": "bolder"
                                 },
                                 {
@@ -51,7 +51,7 @@
                             "items": [
                                 {
                                     "type": "TextBlock",
-                                    "text": "Start",
+                                    "text": "${strings.Attendance.Form.Fields.Start}",
                                     "weight": "bolder"
                                 },
                                 {
@@ -66,7 +66,7 @@
                             "items": [
                                 {
                                     "type": "TextBlock",
-                                    "text": "End",
+                                    "text": "${strings.Attendance.Form.Fields.End}",
                                     "weight": "bolder"
                                 },
                                 {
@@ -93,7 +93,7 @@
                           "items": [
                             {
                                 "type": "Input.Number",
-                                "label": "Break length",
+                                "label": "${strings.Attendance.Form.Fields.BreakLength}",
                                 "id": "break",
                                 "value": 0
                             }
@@ -105,7 +105,7 @@
                           "items": [
                             {
                                 "type": "Input.ChoiceSet",
-                                "label": "Project",
+                                "label": "${strings.Attendance.Form.Fields.Project}",
                                 "id": "project",
                                 "choices": [
                                     {
@@ -128,7 +128,7 @@
             "items": [
                 {
                     "type": "Input.Text",
-                    "label": "Comment",
+                    "label": "${strings.Attendance.Form.Fields.Comment}",
                     "id": "comment",
                     "value": ""
                 }
@@ -145,7 +145,7 @@
                             "actions": [
                                 {
                                       "type": "Action.Submit",
-                                      "title": "Submit",
+                                      "title": "${strings.Attendance.Form.Buttons.Submit}",
                                       "id": "submit",
                                       "style": "positive"
                                 }
@@ -162,8 +162,8 @@
                             "actions": [
                                 {
                                       "type": "Action.Submit",
-                                      "id": "attendanceMenuButton",
-                                      "title": "Back"
+                                      "title": "${strings.Attendance.Form.Buttons.Back}",
+                                      "id": "attendanceMenuButton"
                                 }
                             ]
                         }
