@@ -2,8 +2,9 @@ define([], function() {
   return {
     "PropertyPaneDescription": "Enable the employees ask for a time-off, create new projects or register their work time.",
     "Title": "Personio Adaptive Card",
-    "CardViewLoading": "Loading...",
     "CardViewMain": "Click to manage your work",
+    "CardViewLoading": "Loading...",
+    "CardViewError": "An error has ocurred...",
     "QuickViewButton": "Personio",
     "QuickView": {
       "Response": {
@@ -45,7 +46,8 @@ define([], function() {
           "Buttons": {
             "Submit": "Submit",
             "Back": "Back"
-          }
+          },
+          "Error": "The end time has to take place after the start time. Please try again :)"
         },
         "Overview": {
           "Header": "Attendance overview",
@@ -106,7 +108,8 @@ define([], function() {
           "Buttons": {
             "Submit": "Submit time-off",
             "Back": "Back"
-          }
+          },
+          "Error": "The end date has to take place after the start date. Please try again :)"
         },
         "Overview": {
           "Header": "Absence overview",
@@ -146,7 +149,7 @@ define([], function() {
         },
         "Form": {
           "Header": "Project form",
-          "Field": "Title",
+          "Field": "Name",
           "Buttons": {
             "Create": "Create a project",
             "Back": "Back",

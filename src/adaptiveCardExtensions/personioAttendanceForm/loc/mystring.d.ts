@@ -3,6 +3,7 @@ declare interface IPersonioAttendanceFormAdaptiveCardExtensionStrings {
   Title: string;
   CardViewMain: string;
   CardViewLoading: string;
+  CardViewError: string;
   QuickViewButton: string;
   QuickView: {
     Response: {
@@ -44,7 +45,8 @@ declare interface IPersonioAttendanceFormAdaptiveCardExtensionStrings {
         Buttons: {
           Submit: string;
           Back: string;
-        }
+        },
+        Error: string;
       },
       Overview: {
         Header: string;
@@ -96,7 +98,8 @@ declare interface IPersonioAttendanceFormAdaptiveCardExtensionStrings {
         Buttons: {
           Submit: string;
           Back: string;
-        }
+        },
+        Error: string;
       },
       Overview: {
         Header: string;

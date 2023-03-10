@@ -8,7 +8,7 @@
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "Project",
+                    "text": "${strings.Projects.Menu.Header}",
                     "horizontalAlignment": "center",
                     "weight": "bolder",
                     "size": "medium"
@@ -28,7 +28,7 @@
                                     "type": "Action.Submit",
                                     "style": "positive",
                                     "id": "projectFormMenuButton",
-                                    "title": "Form"
+                                    "title": "${strings.Projects.Menu.Buttons.Form}"
                                 }
                             ]
                         }
@@ -44,7 +44,7 @@
                                     "type": "Action.Submit",
                                     "style": "positive",
                                     "id": "projectsOverviewMenuButton",
-                                    "title": "Overview"
+                                    "title": "${strings.Projects.Menu.Buttons.Overview}"
                                 }
                             ]
                         }
@@ -57,7 +57,7 @@
         {
             "type": "Action.Submit",
             "id": "back",
-            "title": "Back"
+            "title": "${strings.Projects.Menu.Buttons.Back}"
         }
     ]
 }

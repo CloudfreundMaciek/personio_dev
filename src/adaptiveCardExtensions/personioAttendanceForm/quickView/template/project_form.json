@@ -9,7 +9,7 @@
             "items": [
                 {
                     "type": "TextBlock",
-                    "text": "Project form",
+                    "text": "${strings.Projects.Form.Header}",
                     "horizontalAlignment": "center",
                     "weight": "bolder",
                     "height": "auto"
@@ -24,7 +24,7 @@
                     "items": [
                         {
                             "type": "TextBlock",
-                            "text": "Title",
+                            "text": "${strings.Projects.Form.Field}",
                             "weight": "bolder"
                         },
                         {
@@ -47,7 +47,7 @@
                             "actions": [
                                 {
                                       "type": "Action.Submit",
-                                      "title": "Create a project",
+                                      "title": "${strings.Projects.Form.Buttons.Create}",
                                       "id": "createProjectButton",
                                       "style": "positive",
                                       "data": {
@@ -68,7 +68,7 @@
                                 {
                                       "type": "Action.Submit",
                                       "id": "projectsMenuButton",
-                                      "title": "Back"
+                                      "title": "${strings.Projects.Form.Buttons.Back}"
                                 }
                             ]
                         }

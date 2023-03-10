@@ -9,13 +9,13 @@
       "items": [
         {
           "type": "TextBlock",
-          "text": "Absence overview",
+          "text": "${strings.Absence.Overview.Header}",
           "weight": "bolder",
           "horizontalAlignment": "center"
         },
         {
           "type": "TextBlock",
-          "text": "You've got ${absenceCount}/${absenceLimit} of your holidays days left.",
+          "text": "${strings.Absence.Form.LeftDays[0]} ${absenceCount}/${absenceLimit} ${strings.Absence.Form.LeftDays[1]}",
           "horizontalAlignment": "center",
           "isSubtle": true,
           "size": "small",
@@ -29,6 +29,7 @@
       "items": [
         {
           "type": "TextBlock",
+          "wrap": true,
           "text": "${strings.Absence.Overview.Empty.Message}"
         }
       ]

@@ -17,7 +17,8 @@
             "text": "${strings.Absence.Form.LeftDays[0]} ${absenceCount}/${absenceLimit} ${strings.Absence.Form.LeftDays[1]}",
             "horizontalAlignment": "center",
             "isSubtle": true,
-            "size": "small"
+            "size": "small",
+            "spacing": "none"
           }
         ]
       },

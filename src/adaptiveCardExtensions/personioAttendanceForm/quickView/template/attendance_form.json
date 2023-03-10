@@ -95,7 +95,8 @@
                                 "type": "Input.Number",
                                 "label": "${strings.Attendance.Form.Fields.BreakLength}",
                                 "id": "break",
-                                "value": 0
+                                "value": 0,
+                                "min": 0
                             }
                           ]
                         },

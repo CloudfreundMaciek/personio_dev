@@ -2,8 +2,9 @@ define([], function() {
   return {
     "PropertyPaneDescription": "Ermögliche deinen Mitarbeitern ihre Projekte, An- und Abwesenheiten verwalten an einem einzigen Ort",
     "Title": "Personio Adaptive Card",
-    "CardViewLoading": "Laden...",
     "CardViewMain": "Tippe, um deine Arbeit zu verwalten",
+    "CardViewLoading": "Laden...",
+    "CardViewError": "Ein Fehler ist aufgetreten...",
     "QuickViewButton": "Personio",
     "QuickView": {
       "Response": {
@@ -32,11 +33,11 @@ define([], function() {
           }
         },
         "Form": {
-          "Header": "Anwesenheit Formular",
+          "Header": "Anwesenheitsformular",
           "Required": "Verlangt",
           "Fields": {
             "Date": "Datum",
-            "Start": "Start",
+            "Start": "Beginn",
             "End": "Ende",
             "BreakLength": "Pausedauer",
             "Project": "Projekt",
@@ -45,7 +46,8 @@ define([], function() {
           "Buttons": {
             "Submit": "Beantrage",
             "Back": "Zurück"
-          }
+          },
+          "Error": "Die Endezeit muss nach der Beginnzeit stattfinden. Versuche es nochmal :)"
         },
         "Overview": {
           "Header": "Anwesenheitsüberblick",
@@ -74,8 +76,8 @@ define([], function() {
             "Back": "Zurück"
           },
           "Empty": {
-            "Message": "Du hast keine Anwesenheiten in diesem Zeitraum...",
-            "Submit": "Beantrage eine neue Anwesenheit"
+            "Message": "Du hast noch keine Anwesenheiten in diesem Zeitraum...",
+            "Submit": "Beantrage eine Anwesenheit"
           }
         }
       },
@@ -89,7 +91,7 @@ define([], function() {
           }
         },
         "Form": {
-          "Header": "Abwesenheit Formular",
+          "Header": "Abwesenheitsformular",
           "LeftDays": [
             "Du hast noch",
             "Urlaubstage übrig"
@@ -97,16 +99,17 @@ define([], function() {
           "Required": "Verlangt",
           "Fields": {
             "AbsenceType": "Abwesenheitsgrund",
-            "Start": "Start",
+            "Start": "Beginn",
             "End": "Ende",
-            "HalfStart": "Halbtag Start",
+            "HalfStart": "Halbtag Beginn",
             "HalfEnd": "Halbtag Ende",
             "Comment": "Kommentar"
           },
           "Buttons": {
             "Submit": "Beantrage eine Abwesenheit",
             "Back": "Zurück"
-          }
+          },
+          "Error": "Das Endedatum muss nach dem Beginndatum stattfinden. Versuche es nochmal :)"
         },
         "Overview": {
           "Header": "Abwesenheitsüberblick",
@@ -115,58 +118,58 @@ define([], function() {
             "Urlaubstage übrig"
           ],
           "Absence": {
-            "Start": "Start",
+            "Start": "Beginn",
             "End": "Ende",
             "Status": "Status:",
           },
           "Empty": {
-            "Message": "You haven't planned any times off yet...",
-            "Submit": "Submit new absence",
+            "Message": "Du hast noch keine Abwesenheiten geplant...",
+            "Submit": "Beantrage eine Abwesenheit",
           },
           "Buttons": {
             "Cancel": {
-              "Title": "Cancel time-off",
+              "Title": "Lösche eine Abwesenheit",
               "Card": {
-                "Choice": "Choose the ID",
-                "Confirm": "Confirm"
+                "Choice": "Wähle die IDNr.",
+                "Confirm": "Bestätige"
               }
             },
-            "Back": "Back"
+            "Back": "Zurück"
           }
         }
       },
       "Projects": {
         "Menu": {
-          "Header": "Projects",
+          "Header": "Projekte",
           "Buttons": {
-            "Form": "Form",
-            "Overview": "Overview",
-            "Back": "Back",
+            "Form": "Formular",
+            "Overview": "Überblick",
+            "Back": "Zurück",
           }
         },
         "Form": {
-          "Header": "Project form",
-          "Field": "Title",
+          "Header": "Projektsformular",
+          "Field": "Name",
           "Buttons": {
-            "Create": "Create a project",
-            "Back": "Back",
+            "Create": "Schaffe einen Projekt",
+            "Back": "Zurück",
           }
         },
         "Overview": {
-          "Header": "Projects overview",
+          "Header": "Projektenüberblick",
           "Buttons": {
             "Finish": {
-              "Title": "Finish a project",
+              "Title": "Beende einen Projekt",
               "Card": {
-                "Choice": "Choose the project",
-                "Confirm": "Confirm"
+                "Choice": "Wähle einen Projekt",
+                "Confirm": "Bestätige"
               }
             },
-            "Back": "Back",
+            "Back": "Zurück",
           },
           "Empty": {
-            "Message": "There is no project to work on...",
-            "Create": "Create a project"
+            "Message": "Es gibt keine Projekte zu bearbeiten...",
+            "Create": "Schaffe einen Projekt"
           }
         }
       }
