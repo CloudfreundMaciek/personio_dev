@@ -23,6 +23,11 @@
     },
     "officeFabricIconFontName": "PageHeaderEdit",
     "properties": {
+      "quickViewButton": null,
+      "cardViewContent": null,
+      "attendance": true,
+      "absence": true,
+      "projects": true
     },
     "cardSize": "Medium"
   }]

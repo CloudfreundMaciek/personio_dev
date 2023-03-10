@@ -4,8 +4,14 @@ import { CardView } from './cardView/CardView';
 import { PersonioAttendanceFormPropertyPane } from './PersonioAttendanceFormPropertyPane';
 import { ISPHttpClientOptions, AadHttpClient } from '@microsoft/sp-http';
 import { QuickViewPersonio } from './quickView/QuickViewAttendance';
+import strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
+  quickViewButton: string;
+  cardViewContent: string;
+  attendance: boolean;
+  absence: boolean;
+  projects: boolean;
 }
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionState {
@@ -325,6 +331,9 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
   }
 
   public async onInit(): Promise<void> {
+    this.properties.quickViewButton = strings.QuickViewButton;
+    this.properties.cardViewContent = strings.CardViewMain;
+    
     this.state = {
       timeOffTypes: null, 
       projects: null,

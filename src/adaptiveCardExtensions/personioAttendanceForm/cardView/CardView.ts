@@ -14,7 +14,7 @@ export class CardView extends BaseImageCardView<IPersonioAttendanceFormAdaptiveC
     this.getSVGimg();
     const cardButton: [ICardButton] | undefined = (this.state.quickViewStage && !this.state.error) ? [
       {
-        title: strings.QuickViewButton,
+        title: this.properties.quickViewButton,
         action: {
           type: 'QuickView',
           parameters: {
@@ -30,8 +30,9 @@ export class CardView extends BaseImageCardView<IPersonioAttendanceFormAdaptiveC
 
   public get data(): IImageCardParameters {
     return {
-      primaryText: this.state.error ? this.state.error : (this.state.quickViewStage ? strings.CardViewMain : strings.CardViewLoading),
-      imageUrl: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/personio_image.png`
+      primaryText: this.state.error ? this.state.error : (this.state.quickViewStage ? this.properties.cardViewContent : strings.CardViewLoading),
+      imageUrl: `${this.context.pageContext.site.absoluteUrl}/SiteAssets/personio_image.png`,
+      imageAltText: "personio_logo"
     };
   }
 

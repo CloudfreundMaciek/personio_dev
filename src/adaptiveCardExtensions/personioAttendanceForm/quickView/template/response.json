@@ -19,8 +19,8 @@
         "actions": [
             {
                 "type": "Action.Submit",
-                "title": "Close",
-                "id": "close"
+                "title": "${strings.Response.Back}",
+                "id": "menu"
             }
         ]
     }

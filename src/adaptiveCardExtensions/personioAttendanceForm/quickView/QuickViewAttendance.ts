@@ -15,6 +15,7 @@ export interface IQuickViewAttendanceData {
   stage: string;
   icons: any;
   strings: any;
+  props: any;
 }
 
 export class QuickViewPersonio extends BaseAdaptiveCardView<
@@ -65,7 +66,8 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       dates: this.state.dates,
       stage: this.state.quickViewStage,
       icons: icons,
-      strings: strings.QuickView
+      strings: strings.QuickView,
+      props: this.properties
     };
   }
   
@@ -186,7 +188,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         for (const attendance of this.state.attendances) {
           if (attendance.id != data.id) attendances.push(attendance);
         }
-        this.setState({attendances: attendances, message: response.data.message, quickViewStage: 'response'});
+        this.setState({attendances: attendances, message: strings.QuickView.Response.Successful.AttendanceDeleted, quickViewStage: 'response'});
       } else {
         this.setState({message: response.error.message, quickViewStage: 'response'});
       }
@@ -247,7 +249,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
       for (const absence of this.state.absences) {
         if (absence.id !== data.id) absences.push(absence);
       }
-      this.setState({absences: absences, message: response.data.message, quickViewStage: 'response'});
+      this.setState({absences: absences, message: strings.QuickView.Response.Successful.AbsenceDeleted, quickViewStage: 'response'});
       } else {
       this.setState({message: response.error.message, quickViewStage: 'response'});
       }
@@ -431,7 +433,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
           this.finishProject(action.data);
         }
       }
-      else if (action.id === 'close' || action.id === 'back') {
+      else if (action.id === 'menu') {
         this.setState({
           quickViewStage: 'menu',
           message: null

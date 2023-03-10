@@ -64,7 +64,7 @@
               "actions": [
                 {
                   "type": "Action.Submit",
-                  "title": "Back",
+                  "title": "${strings.Attendance.Overview.Buttons.Back}",
                   "id": "attendanceMenuButton"
                 }
               ]

@@ -1,20 +1,32 @@
 define([], function() {
   return {
-    "PropertyPaneDescription": "Ermögliche deinen Mitarbeitern ihre Projekte, An- und Abwesenheiten verwalten an einem einzigen Ort",
-    "Title": "Personio Adaptive Card",
+    "PropertyPaneDescription": "Ermögliche deinen Mitarbeitern ihre Projekte, An- und Abwesenheiten verwalten an einem einzigen Ort.",
     "CardViewMain": "Tippe, um deine Arbeit zu verwalten",
     "CardViewLoading": "Laden...",
     "CardViewError": "Ein Fehler ist aufgetreten...",
-    "QuickViewButton": "Personio",
+    "PropertyPane": {
+      "ButtonLabel": "Tastenschrift",
+      "Content": "Inhalt",
+      "Fields": {
+        "Attendance": "Anwesenheit",
+        "Absence": "Abwesenheit",
+        "Projects": "Projekte"
+      }
+    },
+    "QuickViewButton": "Verwalte",
     "QuickView": {
+      "Loading": "Laden, warte bitte...",
       "Response": {
         "Successful": {
           "ProjectCreated": "Das Projekt wurde erfolgreich geschaffen!",
           "ProjectFinished": "Das Projekt wurde erfolgreich fertiggestellt!",
           "AttendanceSaved": "Die Anwesenheit wurde erfolgreich gespeichert!",
+          "AttendanceDeleted": "Die Anwesenheit wurde erfolgreich gelöscht!",
           "AbsenceRequested": "Deine Anfrage wurde erfolgreich zugeliefert!",
-          "AbsenceApproved": "Dein Antrag wurde genehmight!"
-        }
+          "AbsenceApproved": "Dein Antrag wurde genehmight!",
+          "AbsenceDeleted": "Die Abwesenheit wurde erfolgreich gelöscht!"
+        },
+        "Back": "Zurück"
       },
       "Menu": {
         "Buttons": {
@@ -120,7 +132,11 @@ define([], function() {
           "Absence": {
             "Start": "Beginn",
             "End": "Ende",
-            "Status": "Status:",
+            "Status": {
+              "Status": "Status:",
+              "Requested": "angefragt",
+              "Approved": "genehmigt"
+            }
           },
           "Empty": {
             "Message": "Du hast noch keine Abwesenheiten geplant...",

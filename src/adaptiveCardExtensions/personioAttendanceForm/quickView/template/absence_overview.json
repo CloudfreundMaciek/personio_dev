@@ -89,7 +89,7 @@
         },
         {
           "type": "TextBlock",
-          "text": "${$root.strings.Absence.Overview.Absence.Status} ${status}",
+          "text": "${$root.strings.Absence.Overview.Absence.Status.Status} ${if(status == 'requested', $root.strings.Absence.Overview.Absence.Status.Requested, $root.strings.Absence.Overview.Absence.Status.Approved)}",
           "horizontalAlignment": "center",
           "size": "small"
         },

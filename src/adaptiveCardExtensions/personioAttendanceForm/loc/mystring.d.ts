@@ -1,19 +1,31 @@
 declare interface IPersonioAttendanceFormAdaptiveCardExtensionStrings {
   PropertyPaneDescription: string;
-  Title: string;
   CardViewMain: string;
   CardViewLoading: string;
   CardViewError: string;
+  PropertyPane: {
+    ButtonLabel: string;
+    Content: string;
+    Fields: {
+      Attendance: string;
+      Absence: string;
+      Projects: string;
+    }
+  }
   QuickViewButton: string;
   QuickView: {
+    Loading: string;
     Response: {
       Successful: {
         ProjectCreated: string;
         ProjectFinished: string;
         AttendanceSaved: string;
+        AttendanceDeleted: string;
         AbsenceRequested: string;
         AbsenceApproved: string;
-      }
+        AbsenceDeleted: string;
+      },
+      Back: string;
     },
     Menu: {
       Buttons: {
@@ -107,7 +119,11 @@ declare interface IPersonioAttendanceFormAdaptiveCardExtensionStrings {
         Absence: {
           Start: string;
           End: string;
-          Status: string;
+          Status: {
+            Status: string;
+            Requested: string;
+            Approved: string;
+          };
         },
         Empty: {
           Message: string;

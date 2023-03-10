@@ -1,20 +1,32 @@
 define([], function() {
   return {
     "PropertyPaneDescription": "Enable the employees ask for a time-off, create new projects or register their work time.",
-    "Title": "Personio Adaptive Card",
     "CardViewMain": "Click to manage your work",
     "CardViewLoading": "Loading...",
     "CardViewError": "An error has ocurred...",
-    "QuickViewButton": "Personio",
+    "PropertyPane": {
+      "ButtonLabel": "Button label",
+      "Content": "Content",
+      "Fields": {
+        "Attendance": "Attendance",
+        "Absence": "Absence",
+        "Projects": "Projects"
+      }
+    },
+    "QuickViewButton": "Manage",
     "QuickView": {
+      "Loading": "Loading, please wait...",
       "Response": {
         "Successful": {
           "ProjectCreated": "The project has been successfuly created!",
           "ProjectFinished": "The project has been successfuly finished!",
           "AttendanceSaved": "The attendance has been successfully saved!",
+          "AttendanceDeleted": "The attendance has been succesfully deleted!",
           "AbsenceRequested": "Your request has been successfuly delivered.",
-          "AbsenceApproved": "Your request has been approved!"
-        }
+          "AbsenceApproved": "Your request has been approved!",
+          "AbsenceDeleted": "The absence has been successully called off!"
+        },
+        "Back": "Back"
       },
       "Menu": {
         "Buttons": {
@@ -120,7 +132,11 @@ define([], function() {
           "Absence": {
             "Start": "Start",
             "End": "End",
-            "Status": "Status:",
+            "Status": {
+              "Status": "Status:",
+              "Requested": "requested",
+              "Approved": "approved"
+            }
           },
           "Empty": {
             "Message": "You haven't planned any times off yet...",

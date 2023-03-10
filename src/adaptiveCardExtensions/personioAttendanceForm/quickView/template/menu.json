@@ -4,6 +4,7 @@
     "body": [
         {
             "type": "ColumnSet",
+            "$when": "${props.attendance == true}",
             "style": "emphasis",
             "columns": [
                 {
@@ -38,6 +39,7 @@
         },
         {
             "type": "ColumnSet",
+            "$when": "${props.absence == true}",
             "style": "emphasis",
             "columns": [
                 {
@@ -72,6 +74,7 @@
         },
         {
             "type": "ColumnSet",
+            "$when": "${props.projects == true}",
             "style": "emphasis",
             "columns": [
                 {

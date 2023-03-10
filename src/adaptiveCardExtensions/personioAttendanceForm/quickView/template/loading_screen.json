@@ -9,7 +9,7 @@
       "items": [
         {
             "type": "TextBlock",
-            "text": "Loading, please wait..."
+            "text": "${strings.Loading}"
         }
       ]
     }

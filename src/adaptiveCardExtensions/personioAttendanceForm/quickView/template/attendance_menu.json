@@ -56,7 +56,7 @@
     "actions": [
         {
             "type": "Action.Submit",
-            "id": "back",
+            "id": "menu",
             "title": "${strings.Attendance.Menu.Buttons.Back}"
         }
     ]
