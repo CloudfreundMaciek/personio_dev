@@ -9,7 +9,7 @@
     "isDomainIsolated": false,
     "webApiPermissionRequests": [
       {
-        "resource": "personioapi",
+        "resource": "Personio",
         "scope": "user_impersonation"
       }
     ],

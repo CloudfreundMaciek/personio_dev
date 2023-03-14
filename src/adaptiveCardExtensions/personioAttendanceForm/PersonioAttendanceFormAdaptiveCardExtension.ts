@@ -6,6 +6,8 @@ import { ISPHttpClientOptions, AadHttpClient } from '@microsoft/sp-http';
 import { QuickViewPersonio } from './quickView/QuickViewAttendance';
 import strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
 
+export const _function_app_url = 'https://personio.azurewebsites.net/api/ACE_Trigger?';
+
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
   quickViewButton: string;
   cardViewContent: string;
@@ -166,7 +168,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         email: this.context.pageContext.user.email
       })
     };
-    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -210,7 +212,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         }
       })
     };
-    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -248,7 +250,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         target: 'getAbsenceTypes'
       })
     };
-    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -280,7 +282,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         email: this.context.pageContext.user.email
       })
     };
-    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -309,7 +311,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         email: this.context.pageContext.user.email
       })
     };
-    return this.state.azureClient.fetch('https://personioapi.azurewebsites.net/api/HttpTrigger1?code=HuQIZ0XP8otMJznzgy-edcdT-7vOMXv1E8h0N9dQzWFRAzFuqtu1wg==', AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
       .then(res => res.json())
       .then(res => {
         if (res.success === true) {
@@ -345,7 +347,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
       error: null,
       message: null, 
       dates: this.define_dates(), 
-      azureClient: await this.context.aadHttpClientFactory.getClient('4ad53561-c347-45d2-b544-f5d6baee39b7') 
+      azureClient: await this.context.aadHttpClientFactory.getClient('2f6760b6-b30e-4d58-a83e-760f406023cc') 
     };
 
     const typesPromise = this.getAbsenceTypes();
