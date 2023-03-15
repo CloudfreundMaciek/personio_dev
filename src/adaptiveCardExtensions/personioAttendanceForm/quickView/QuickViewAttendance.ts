@@ -84,7 +84,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         email: this.context.pageContext.user.email
       })
     };
-    this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(response => response.json())
     .then(response => {
       if (response.success === true) {
@@ -113,7 +113,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         email: this.context.pageContext.user.email
       })
     };
-    this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(response => response.json())
     .then(response => {
       if (response?.success === false) {
@@ -143,7 +143,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         email: this.context.pageContext.user.email
       })
     };
-    this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -180,7 +180,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         email: this.context.pageContext.user.email
       })
     };
-    this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(response => response.json())
     .then(response => {
       if (response.success === true) {
@@ -208,7 +208,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         email: this.context.pageContext.user.email
       })
     };
-    this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(response => response.json())
     .then(async response => {
       if (response.success === true) {
@@ -241,7 +241,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         email: this.context.pageContext.user.email
       })
     };
-    this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(response => response.json())
     .then(response => {
       if (response.success === true) {
@@ -268,7 +268,7 @@ export class QuickViewPersonio extends BaseAdaptiveCardView<
         email: this.context.pageContext.user.email
       })
     };
-    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {

@@ -3,14 +3,14 @@
   "solution": {
     "name": "personio-dev-client-side-solution",
     "id": "19faadd9-84c8-4e32-9569-2afd9c04503a",
-    "version": "2.0.4.3",
+    "version": "2.0.4.4",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "webApiPermissionRequests": [
       {
         "resource": "Personio",
-        "scope": "User.Read"
+        "scope": "user_impersonation"
       }
     ],
     "developer": {

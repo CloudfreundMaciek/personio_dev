@@ -168,7 +168,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         email: this.context.pageContext.user.email
       })
     };
-    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -212,7 +212,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         }
       })
     };
-    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -250,7 +250,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         target: 'getAbsenceTypes'
       })
     };
-    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -282,7 +282,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         email: this.context.pageContext.user.email
       })
     };
-    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
@@ -311,7 +311,7 @@ export default class PersonioAttendanceFormAdaptiveCardExtension extends BaseAda
         email: this.context.pageContext.user.email
       })
     };
-    return this.state.azureClient.fetch(_function_app_url, AadHttpClient.configurations.v1, options)
+    return this.state.azureClient.fetch("https://personio.azurewebsites.net/api/ace_personio_trigger?", AadHttpClient.configurations.v1, options)
       .then(res => res.json())
       .then(res => {
         if (res.success === true) {
