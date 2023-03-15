@@ -6,7 +6,7 @@ import { ISPHttpClientOptions, AadHttpClient } from '@microsoft/sp-http';
 import { QuickViewPersonio } from './quickView/QuickViewAttendance';
 import strings from 'PersonioAttendanceFormAdaptiveCardExtensionStrings';
 
-export const _function_app_url = 'https://personio.azurewebsites.net/api/ACE_Trigger?';
+export const _function_app_url = 'https://personio.azurewebsites.net/api/ace_personio_trigger';
 
 export interface IPersonioAttendanceFormAdaptiveCardExtensionProps {
   quickViewButton: string;
